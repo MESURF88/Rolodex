@@ -19,7 +19,7 @@ export const BackgroundView = styled.SafeAreaView`
 
 export const ProfileButton = styled.TouchableOpacity`
     alignItems: center;
-    color: #DDDDDD;
+    background-color: #DDDDDD;
     padding: 10px;
     margin-bottom: 10px;
 `
