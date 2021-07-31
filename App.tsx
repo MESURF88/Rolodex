@@ -2,13 +2,13 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import React from 'react';
 import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
-import { createAppContainer } from 'react-navigation';
+import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack';
-
+import HomeScreen from "./src/pages/Home";
+import ProfileScreen from "./src/pages/Profile";
 import * as expoSQLite from 'expo-sqlite';
 // USE FIREBASE wont be able to prototype on iOS
-import { API_KEY, APP_ID, MESSAGE_SENDER_ID } from 'react-native-dotenv'
+import { API_KEY, APP_ID, MESSAGE_SENDER_ID } from '@env';
 import firebase from 'firebase/app'
 import "firebase/database";
 
@@ -140,73 +140,27 @@ function Items() {
   );
 }
 
-class HomeScreen extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Home Screen</Text>
-        <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Profile', {name: 'Kevin'} )}>
-          <Text>Go to Kevin's profile</Text>
-         </TouchableOpacity>
-        <StatusBar style="auto" />
-      </View>
-    );
-  }
-}
+const StackNavigator = createStackNavigator();
 
-class ProfileScreen extends React.Component {
-  render() {
-    const { navigation } = this.props;
-    return (
-      <View style={styles.container}>
-         <Text style={styles.title}>This is {navigation.getParam('name', 'default value')}'s profile</Text>
-         <Items />
-         <StatusBar style="auto" />
-      </View>
-    );
-  }
-}
-
-const Layouts = createStackNavigator({
-    Home:HomeScreen,
-    Profile:ProfileScreen,
-  },
-  {
-      initialRouteName: 'Home'
-});
-const AppContainer = createAppContainer(Layouts);
+const AllScreenNavigation = () => (
+  <StackNavigator.Navigator
+    initialRouteName="Home"
+    screenOptions={{
+      header: () => null
+    }}
+  >
+    <StackNavigator.Screen component={HomeScreen} name="Home" />
+    <StackNavigator.Screen component={ProfileScreen} name="Profile" />
+  </StackNavigator.Navigator>
+);
 
 export default class App extends React.Component {
   render() {
     return (
-      <AppContainer />   
+    <NavigationContainer>
+      <StatusBar style="auto" />
+      <AllScreenNavigation />
+    </NavigationContainer> 
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5AD44',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-    marginBottom: 10
-  },
-  title: {
-    maxHeight: 30,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  results: {
-    maxHeight: 30,
-    backgroundColor: '#1c9963',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
