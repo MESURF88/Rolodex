@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "rolodexv0.2",
-    "slug": "rolodexv0.2",
-    "version": "1.0.0",
+    "name": "rolodex",
+    "slug": "rolodex",
+    "version": "0.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {

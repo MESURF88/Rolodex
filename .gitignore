@@ -1,6 +1,10 @@
 node_modules/
 .expo/
+.env
 npm-debug.*
+package-lock.json
+rolodexv0.2-workspace.code-workspace
+.vscode
 *.jks
 *.p8
 *.p12
