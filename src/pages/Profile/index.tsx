@@ -7,7 +7,7 @@ import {
 } from './styles'
 
 // TODO: rename var Hi
-var Hi = DBHandleInstance.GetAllIndexWeb();
+var Hi = DBHandleInstance.GetAllUserRows();
 
 const ProfileScreen = ({navigation, route}) => {
 
