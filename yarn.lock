@@ -1169,6 +1169,11 @@
   "resolved" "https://registry.npmjs.org/@emotion/unitless/-/unitless-0.7.5.tgz"
   "version" "0.7.5"
 
+"@esri/react-arcgis@^5.1.0":
+  "integrity" "sha512-4zXVx5DoJ5OFN+s1gp9sIWsTP307NlvT7meCsFe/lqPJfs239ztYNnEy6V9tMpPBIx+Lz5fTy47SS61VJM7ToQ=="
+  "resolved" "https://registry.npmjs.org/@esri/react-arcgis/-/react-arcgis-5.1.0.tgz"
+  "version" "5.1.0"
+
 "@expo/config-plugins@^3.0.0", "@expo/config-plugins@3.0.6":
   "integrity" "sha512-hJfxEWfsWuqt4WG3X2F74+tL1JrXZomRBgShKLTMw1vvLe4md70rjTLbmaHkcGb+TfY3RtFZSK8p9oqFXCi8KA=="
   "resolved" "https://registry.npmjs.org/@expo/config-plugins/-/config-plugins-3.0.6.tgz"
@@ -3153,6 +3158,11 @@
   "integrity" "sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A=="
   "resolved" "https://registry.npmjs.org/esprima/-/esprima-4.0.1.tgz"
   "version" "4.0.1"
+
+"esri-loader@^2.14", "esri-loader@^2.16.0":
+  "integrity" "sha512-0lneVO6aizdRFt1mbrOsRgbF/F1v4LBUwKg+kfiBmoGJPf2ATFI/OimBlfeDI6J1rEQiWHi1PsALFCF4yRf2mw=="
+  "resolved" "https://registry.npmjs.org/esri-loader/-/esri-loader-2.16.0.tgz"
+  "version" "2.16.0"
 
 "esutils@^2.0.2":
   "integrity" "sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g=="
@@ -5429,7 +5439,7 @@
     "shell-quote" "^1.6.1"
     "ws" "^7"
 
-"react-dom@>= 16.8.0", "react-dom@>=16.5.1", "react-dom@16.13.1":
+"react-dom@^16", "react-dom@>= 16.8.0", "react-dom@>=16.5.1", "react-dom@16.13.1":
   "integrity" "sha512-81PIMmVLnCNLO/fFOQxdQkvEq/+Hfpv24XNJfpyZhTRfO0QcmQIF/PgCa1zCOj2w1hrn12MFLyaJ/G0+Mxtfag=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-16.13.1.tgz"
   "version" "16.13.1"
@@ -5448,6 +5458,11 @@
   "integrity" "sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w=="
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   "version" "17.0.2"
+
+"react-native-arcgis-mapview@^1.0.11":
+  "integrity" "sha512-R22Y/F4tx4Tj21frcNOv0oxDxo25M1XAT/32cj93HkpvidbiaI9ryXZxWeILQOi1DZCjDpBIYwLUARczzY2qqQ=="
+  "resolved" "https://registry.npmjs.org/react-native-arcgis-mapview/-/react-native-arcgis-mapview-1.0.11.tgz"
+  "version" "1.0.11"
 
 "react-native-dotenv@^3.1.1":
   "integrity" "sha512-eMVEItSKy1saVH14Tn4mGpxhUPfHItBjuqW3DYFYELOO2sPAe25vaxgG5LRee/VyfR6OcJxbVE/6J8aOjy04zA=="
@@ -5506,7 +5521,7 @@
     "prop-types" "^15.6.0"
     "react-timer-mixin" "^0.13.4"
 
-"react-native@*", "react-native@>=0.42.0", "react-native@>=0.57", "react-native@>=0.62.0-rc.0 <0.64.0", "react-native@https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz":
+"react-native@*", "react-native@>= 0.51", "react-native@>=0.42.0", "react-native@>=0.57", "react-native@>=0.62.0-rc.0 <0.64.0", "react-native@https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz":
   "integrity" "sha512-qWR6pcG4yDu/Rthm+DvAS017rL38LbZFnJv/k4HL4ZUH/WhKuqC+stD7TlpaOBb3N2bkydm9s+GCa14T41MLEg=="
   "resolved" "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz"
   "version" "0.63.2"
@@ -5557,7 +5572,7 @@
   "resolved" "https://registry.npmjs.org/react-timer-mixin/-/react-timer-mixin-0.13.4.tgz"
   "version" "0.13.4"
 
-"react@*", "react@^16.13.1", "react@^16.8.0 || ^17.0.0", "react@>= 16.8.0", "react@>=16.0", "react@>=16.5.1", "react@16.13.1":
+"react@*", "react@^16", "react@^16.13.1", "react@^16.8.0 || ^17.0.0", "react@>= 16.8.0", "react@>=16.0", "react@>=16.5.1", "react@16.13.1":
   "integrity" "sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w=="
   "resolved" "https://registry.npmjs.org/react/-/react-16.13.1.tgz"
   "version" "16.13.1"

@@ -9,7 +9,7 @@ import {
 const HomeScreen = ({navigation, route}) => {
     return (
         <BackgroundView>
-            <Text>Home Screen</Text>
+            <Text>Welcome to Rolodex</Text>
             <ProfileButton onPress={() => navigation.navigate('Profile', {name: 'Kevin'} )}>
                 <Text>Go to Kevin's profile</Text>
             </ProfileButton>

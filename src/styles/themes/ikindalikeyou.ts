@@ -1,5 +1,5 @@
 export default {
-  title: 'light',
+  title: 'ikindalikeyou',
 
   colors: {
     primary: '#F7D002',
