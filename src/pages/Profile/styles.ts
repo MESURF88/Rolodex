@@ -23,3 +23,9 @@ export const TitleText = styled.Text`
     align-items: center;
     justify-content: center;
 `
+
+export const Image = styled.Image`
+    width: 300px; 
+    height: 300px; 
+    padding: 10px;
+`

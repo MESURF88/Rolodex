@@ -44,7 +44,7 @@ const firebaseSnapshotToArray = function(snapshot) {
 // sqlite db generate array of key values
 const sqliteRowsToArray = function(recvR) {
     var returnArr = [];
-    console.log("sqlite", recvR);
+
     returnArr = recvR;
  
     return returnArr;
@@ -193,7 +193,7 @@ class DBHandle {
     }
 
     constructor() {
-        // Open database method (private) and web uses firbase RTDB, apps uses sqlite
+        // Open database method (private) and web uses firebase RTDB, app uses sqlite
         db = this.#openDatabase();
     }
 

@@ -1,13 +1,15 @@
 import React from 'react'
+// @ts-ignore 
+import MapImg from '../../assets/WorldMap/WorldMap.png'
 import DBHandleInstance from '../../persistence/DBHandler'
 
 import {
     BackgroundView,
     TitleText,
+    Image
 } from './styles'
 
-// TODO: rename var Hi
-var Hi = DBHandleInstance.GetAllUserRows();
+var GetAllUsersTable = DBHandleInstance.GetAllUserRows();
 
 const ProfileScreen = ({navigation, route}) => {
 
@@ -15,7 +17,8 @@ const ProfileScreen = ({navigation, route}) => {
     return (
       <BackgroundView>
         <TitleText>This is {name}'s profile</TitleText>
-            <Hi />
+            <GetAllUsersTable />
+            <Image source={MapImg} />
       </BackgroundView>
     );
 
