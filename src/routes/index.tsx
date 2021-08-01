@@ -5,21 +5,8 @@ import ProfileScreen from '../pages/Profile'
 
 import { ThemeContext } from 'styled-components'
 
-
 // Initialize page navigation
 const StackNavigator = createStackNavigator();
-
-/*const AllScreenNavigation = () => (
-    <StackNavigator.Navigator
-      initialRouteName="Home"
-      screenOptions={{
-        header: () => null
-      }}
-    >
-      <StackNavigator.Screen component={HomeScreen} name="Home" />
-      <StackNavigator.Screen component={ProfileScreen} name="Profile" />
-    </StackNavigator.Navigator>
-  );*/
 
 export default function Routes() {
   const { colors } = useContext(ThemeContext)
@@ -40,6 +27,7 @@ export default function Routes() {
             options={{
                 title: 'Profile',
               }}
+              
       component={ProfileScreen} name="Profile" />
     </StackNavigator.Navigator>
   )

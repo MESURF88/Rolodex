@@ -1,7 +1,13 @@
 import React from 'react'
+import { Platform, Dimensions } from 'react-native';
 // @ts-ignore 
 import MapImg from '../../assets/WorldMap/WorldMap.png'
 import DBHandleInstance from '../../persistence/DBHandler'
+const MapElementComponent = Platform.select({  
+  web: () => require('../../services/ArcGIS/ArcGISMapWeb/index.js').default, 
+  ios: () => require('../../services/ArcGIS/ArcGISMapIOS/index.tsx').default,  // TODO: broken for IOS and android
+  android: () => require('../../services/ArcGIS/index.tsx').default,  // TODO: ../../services/ArcGIS/ArcGISMapIOS/index.tsx
+})();
 
 import {
     BackgroundView,
@@ -19,6 +25,7 @@ const ProfileScreen = ({navigation, route}) => {
         <TitleText>This is {name}'s profile</TitleText>
             <GetAllUsersTable />
             <Image source={MapImg} />
+            <MapElementComponent />
       </BackgroundView>
     );
 
