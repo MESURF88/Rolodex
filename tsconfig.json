@@ -1,6 +1,10 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
+     "baseUrl": "./",
+     "paths": {
+        "@env": ["env.d.ts"]
+      },
       "module": "commonjs",
       "target": "es5",
       "allowJs": true,

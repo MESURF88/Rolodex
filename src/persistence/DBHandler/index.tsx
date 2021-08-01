@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import React from 'react';
-import { Platform} from 'react-native';
+import { Platform, View, Text } from 'react-native';
 import * as expoSQLite from 'expo-sqlite';
 // USE FIREBASE wont be able to prototype on iOS
 import { API_KEY, APP_ID, MESSAGE_SENDER_ID } from '@env';
@@ -33,67 +33,111 @@ const firebaseSnapshotToArray = function(snapshot) {
     var returnArr = [];
 
     snapshot.forEach(function(childSnapshot) {
-        var element = { key: childSnapshot.key, value: childSnapshot.val() }
-        returnArr.push(element);
+        if (childSnapshot.val() !== null) {
+            returnArr.push(childSnapshot.val());
+        }
     });
 
     return returnArr;
 };
 
-class GetAllView extends React.Component {
+// sqlite db generate array of key values
+const sqliteRowsToArray = function(recvR) {
+    var returnArr = [];
 
+    returnArr = recvR.reduce(function(map, obj) {
+        map[obj.key] = obj.val;
+        return map;
+    }, {});
+    console.log("sqlite",returnArr);
+
+    return returnArr;
+};
+
+class GetAllUsersTable extends React.Component {
     state = {
-        items: [],
+        rowsFormatted: [],
         name: "empty...",
         age: "empty...",
-        content: "empty...",
         readError: null,
         writeError: null
     }
 
     componentDidMount = async () => {
       var returnArr = [];
-      try {
-        dbref.get().then((snapshot) => {
-        if (snapshot.exists()) {
-        
-          returnArr = firebaseSnapshotToArray(snapshot);
+      if (Platform.OS === "web") {
+        try {
+            dbref.get().then((snapshot) => {
+            if (snapshot.exists()) {
+            
+            returnArr = firebaseSnapshotToArray(snapshot);
+            
+            let localRows = [];
+            let keyIdx = 0;
+            for (var i = 0; i < returnArr.length; i++) {
+                localRows.push(
+                <View key={keyIdx} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row' }}>
+                    <View key={keyIdx+1} style={{ flex: 1, alignSelf: 'stretch' }}><Text>{returnArr[i].name}</Text></View>
+                    <View key={keyIdx+2} style={{ flex: 1, alignSelf: 'stretch' }}><Text>{returnArr[i].age}</Text></View>
+                </View>
+                )
+                keyIdx = i + 3;
+            }
+            this.setState({ rowsFormatted: localRows });
 
-          this.setState({ age: returnArr[0].value });
-          this.setState({ name: returnArr[0].key });
+            }
+            });
+        } catch (error) {
+            this.setState({ readError: error.message });
         }
-        });
-      } catch (error) {
-        this.setState({ readError: error.message });
       }
+      else {
+        try {
+            console.log("try app");
+
+            const [recvRows, setRecvRows] = React.useState(null);
+
+            useEffect(() => {
+                db.transaction((tx) => {
+                tx.executeSql(
+                    `SELECT * FROM items ORDER BY ROWID ASC LIMIT 1;`,
+                    [],
+                    (_, { rows: { _array } }) => setRecvRows(_array)
+                );
+                });
+            }, []);
+
+            console.log(recvRows);
+            if (recvRows !== null && recvRows.length !== 0) {
+                returnArr = sqliteRowsToArray(recvRows);
+            }
+
+        } catch (error) {
+            this.setState({ readError: error.message });
+        }
+      }
+
     }
 
-    getAge = () => {
-        return this.state.age;
-    }
-
-    getName = () => {
-        return this.state.name;
+    getRows= () => {
+        return this.state.rowsFormatted;
     }
 
     id = 1;
     render() {
         return (
         <RowElement key={this.id}>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Firstname</th>
-                        <th>Age</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Name: {this.getName()}</td>
-                        <td>Age: {this.getAge()}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <View style={{ minWidth: '50%', alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row' }}>
+                    <View style={{ flex: 1, alignSelf: 'stretch' }}> 
+                        <Text style={{ fontWeight: 'bold' }}>Name</Text>
+                    </View>
+                    <View style={{ flex: 1, alignSelf: 'stretch' }}>
+                        <Text style={{ fontWeight: 'bold' }}>Age</Text>
+                    </View>
+                </View>
+                {this.getRows()}
+            </View>
         </RowElement>
         );
     }
@@ -143,13 +187,13 @@ class DBHandle {
 
                 trans.executeSql(
 
-                    'CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, count INT)'
-
+                    'CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, age TEXT)'
+                    
                 )
 
                 trans.executeSql(
 
-                    'INSERT INTO items (text, count) values (?, ?)',["qadir",20],
+                    'INSERT INTO items (name, age) values (?, ?)', ["KevDog", "26"],
 
                 ()=>{console.log("Data Inserted");},
 
@@ -183,47 +227,47 @@ class DBHandle {
 
 
 
-    // TODO: combine these into one function
+    // TODO: combine these into one function name GetAllUserRows
     // Get items of firebase db
     GetAllIndexWeb() {
-        return GetAllView;
+        return GetAllUsersTable;
     }
 
 
     // Get items of sqlite db
-    GetAllIndex() {
-        const [items, setItems] = React.useState(null);
+    // GetAllIndex() {
+    //     const [items, setItems] = React.useState(null);
 
-        useEffect(() => {
-            db.transaction((tx) => {
-            tx.executeSql(
-                `SELECT * FROM items ORDER BY ROWID ASC LIMIT 1;`,
-                [],
-                (_, { rows: { _array } }) => setItems(_array)
-            );
-            });
-        }, []);
+    //     useEffect(() => {
+    //         db.transaction((tx) => {
+    //         tx.executeSql(
+    //             `SELECT * FROM items ORDER BY ROWID ASC LIMIT 1;`,
+    //             [],
+    //             (_, { rows: { _array } }) => setItems(_array)
+    //         );
+    //         });
+    //     }, []);
 
 
 
-        if (items === null || items.length === 0) {
-            return null;
-        }
-        else{
-            return (
-                <BackgroundView>
-                {items.map(({ id, count, text }) => (
-                    <RowElement
-                    key={id}
-                    >
-                    <RowElement>Text: {text}</RowElement>
-                    <RowElement>Count: {count}</RowElement>
-                    </RowElement>
-                ))}
-                </BackgroundView>
-            );
-        }
-    }
+    //     if (items === null || items.length === 0) {
+    //         return null;
+    //     }
+    //     else{
+    //         return (
+    //             <BackgroundView>
+    //             {items.map(({ id, count, text }) => (
+    //                 <RowElement
+    //                 key={id}
+    //                 >
+    //                 <RowElement>Text: {text}</RowElement>
+    //                 <RowElement>Count: {count}</RowElement>
+    //                 </RowElement>
+    //             ))}
+    //             </BackgroundView>
+    //         );
+    //     }
+    // }
 }
 
 const DBHandleInstance = new DBHandle();
