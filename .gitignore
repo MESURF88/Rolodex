@@ -13,6 +13,7 @@ rolodexv0.2-workspace.code-workspace
 *.mobileprovision
 *.orig.*
 web-build/
+dummyfile.ts
 
 # macOS
 .DS_Store

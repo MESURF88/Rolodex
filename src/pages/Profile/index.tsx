@@ -7,33 +7,30 @@ import {
     TitleText,
 } from './styles'
 
+var Hi = DBHandleInstance.GetAllIndexWeb();
+
 const ProfileScreen = ({navigation, route}) => {
-    var items = null;
     if (Platform.OS === "web") {
         // TODO: combine these into one function
-        items = DBHandleInstance.GetAllIndexWeb;
-        console.log("items");
-        console.log(items);
     }
     else {
-        items = DBHandleInstance.GetAllIndex;
+        //TODO: items = DBHandleInstance.GetAllIndex();
+        return (
+            <BackgroundView>
+                <TitleText>Error: Something Went Horribly Wrong!
+                 </TitleText>
+          </BackgroundView>
+        );
     }
-    if (items === null) {
-        items = [];
-    }
-    const id = 1;
+
     const { name } = route.params;
     return (
       <BackgroundView>
-         <TitleText>This is {name}'s profile</TitleText>
-                    <TitleText
-                    key={id}
-                    >
-                    <TitleText>Name: {items.Kevin}</TitleText>
-                    <TitleText>Age: {items.Kevin}</TitleText>
-                    </TitleText>
+        <TitleText>This is {name}'s profile</TitleText>
+            <Hi />
       </BackgroundView>
-    )
+    );
+
 }
 
 export default ProfileScreen

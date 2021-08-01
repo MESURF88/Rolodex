@@ -17,8 +17,8 @@ export const BackgroundView = styled.SafeAreaView`
     justify-content: center;
 `
 
-export const TitleText = styled.Text`
-    max-height: 30px;
+export const RowElement = styled.Text`
+    max-height: 100px;
     background-color: #fff;
     align-items: center;
     justify-content: center;

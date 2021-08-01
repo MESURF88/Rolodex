@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import React from 'react';
-import { Platform, Text } from 'react-native';
+import { Platform} from 'react-native';
 import * as expoSQLite from 'expo-sqlite';
 // USE FIREBASE wont be able to prototype on iOS
 import { API_KEY, APP_ID, MESSAGE_SENDER_ID } from '@env';
@@ -9,7 +9,7 @@ import "firebase/database";
 
 import {
     BackgroundView,
-    TitleText,
+    RowElement,
 } from './styles'
 
 // Initialize Firebase local only
@@ -24,8 +24,81 @@ const firebaseConfig = {
 
 // Declare general db local only
 var db;
+
 // Declare web db local only
 var dbref;
+
+// Web db generate array of key values
+const firebaseSnapshotToArray = function(snapshot) {
+    var returnArr = [];
+
+    snapshot.forEach(function(childSnapshot) {
+        var element = { key: childSnapshot.key, value: childSnapshot.val() }
+        returnArr.push(element);
+    });
+
+    return returnArr;
+};
+
+class GetAllView extends React.Component {
+
+    state = {
+        items: [],
+        name: "empty...",
+        age: "empty...",
+        content: "empty...",
+        readError: null,
+        writeError: null
+    }
+
+    componentDidMount = async () => {
+      var returnArr = [];
+      try {
+        dbref.get().then((snapshot) => {
+        if (snapshot.exists()) {
+        
+          returnArr = firebaseSnapshotToArray(snapshot);
+
+          this.setState({ age: returnArr[0].value });
+          this.setState({ name: returnArr[0].key });
+        }
+        });
+      } catch (error) {
+        this.setState({ readError: error.message });
+      }
+    }
+
+    getAge = () => {
+        return this.state.age;
+    }
+
+    getName = () => {
+        return this.state.name;
+    }
+
+    id = 1;
+    render() {
+        return (
+        <RowElement key={this.id}>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Firstname</th>
+                        <th>Age</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Name: {this.getName()}</td>
+                        <td>Age: {this.getAge()}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </RowElement>
+        );
+    }
+
+}
 
 class DBHandle {
 
@@ -63,6 +136,7 @@ class DBHandle {
         }
         else {
 
+            // Filling in sample data for offline sqlite database
             try {
 
                 db.transaction(trans=>{
@@ -107,28 +181,14 @@ class DBHandle {
         }
     }
 
+
+
     // TODO: combine these into one function
     // Get items of firebase db
     GetAllIndexWeb() {
-        const [items, setItems] = React.useState(null);
-        dbref.get().then((snapshot) => {
-            if (snapshot.exists()) {
-                setItems(snapshot.val());
-                console.log("Kevin's age here: ", snapshot.val().Kevin, " Available items: ", items);
-            } else {
-                console.log("No data available");
-            }
-        }).catch((error) => {
-            console.error(error);
-        });
-
-        if (items === null || items.length === 0) {
-            return null;
-        }
-        else{
-            return items;
-        }
+        return GetAllView;
     }
+
 
     // Get items of sqlite db
     GetAllIndex() {
@@ -153,12 +213,12 @@ class DBHandle {
             return (
                 <BackgroundView>
                 {items.map(({ id, count, text }) => (
-                    <TitleText
+                    <RowElement
                     key={id}
                     >
-                    <TitleText>Text: {text}</TitleText>
-                    <TitleText>Count: {count}</TitleText>
-                    </TitleText>
+                    <RowElement>Text: {text}</RowElement>
+                    <RowElement>Count: {count}</RowElement>
+                    </RowElement>
                 ))}
                 </BackgroundView>
             );
