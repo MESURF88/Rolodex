@@ -1,5 +1,6 @@
 import React from 'react';
 import { Platform, View, Text, Dimensions } from 'react-native';
+import Schema from './schema'
 import * as expoSQLite from 'expo-sqlite';
 // @ts-ignore 
 import { API_KEY, APP_ID, MESSAGE_SENDER_ID } from '@env';

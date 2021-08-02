@@ -14,7 +14,7 @@ export default function Routes() {
       <StackNavigator.Navigator
       initialRouteName="Home"
       screenOptions={{
-        headerStyle: { backgroundColor: colors.tabBarActiveBackgroundColor, },
+        headerStyle: { backgroundColor: colors.background },
         header: () => null
       }}
     >

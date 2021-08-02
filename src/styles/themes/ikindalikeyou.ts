@@ -2,9 +2,9 @@ export default {
   title: 'ikindalikeyou',
 
   colors: {
-    primary: '#F7D002',
+    primary: '#EEAF55',
 
-    background: '#FFFFFF',
+    background: '#A0F45B',
     switcherBackground: '#d6d6d6',
     text: '#0d0d0d',
 
