@@ -1,0 +1,23 @@
+{
+  "files": {
+    "app.js": "/MapTest/static/js/app.d2fddaa7.chunk.js",
+    "app.js.map": "/MapTest/static/js/app.d2fddaa7.chunk.js.map",
+    "runtime~app.js": "/MapTest/static/js/runtime~app.63476830.js",
+    "runtime~app.js.map": "/MapTest/static/js/runtime~app.63476830.js.map",
+    "static/js/2.4892da54.chunk.js": "/MapTest/static/js/2.4892da54.chunk.js",
+    "static/js/2.4892da54.chunk.js.map": "/MapTest/static/js/2.4892da54.chunk.js.map",
+    "favicon-16.png": "/MapTest/favicon-16.png",
+    "favicon-32.png": "/MapTest/favicon-32.png",
+    "favicon.ico": "/MapTest/favicon.ico",
+    "index.html": "/MapTest/index.html",
+    "manifest.json": "/MapTest/manifest.json",
+    "serve.json": "/MapTest/serve.json",
+    "static/js/2.4892da54.chunk.js.LICENSE.txt": "/MapTest/static/js/2.4892da54.chunk.js.LICENSE.txt",
+    "static/media/WorldMap.png": "/MapTest/static/media/WorldMap.e02fb1bf.png"
+  },
+  "entrypoints": [
+    "static/js/runtime~app.63476830.js",
+    "static/js/2.4892da54.chunk.js",
+    "static/js/app.d2fddaa7.chunk.js"
+  ]
+}
