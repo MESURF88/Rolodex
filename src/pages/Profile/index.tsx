@@ -23,8 +23,8 @@ const ProfileScreen = ({navigation, route}) => {
     return (
       <BackgroundView>
         <TitleText>This is {name}'s profile</TitleText>
+           <Image source={MapImg} style={{maxHeight:50, maxWidth: 50}}/>
             <GetAllUsersTable />
-            <Image source={MapImg} />
             <MapElementComponent />
       </BackgroundView>
     );

@@ -74,9 +74,11 @@ class GetAllUsersTable extends React.Component {
             let keyIdx = 0;
             for (var i = 0; i < returnArr.length; i++) {
                 localRows.push(
-                <View key={keyIdx} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row' }}>
-                    <View key={keyIdx+1} style={{ flex: 1, alignSelf: 'stretch' }}><Text>{returnArr[i].name}</Text></View>
-                    <View key={keyIdx+2} style={{ flex: 1, alignSelf: 'stretch' }}><Text>{returnArr[i].age}</Text></View>
+                <View key={keyIdx} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', borderWidth: 5 }}>
+                    <View key={keyIdx+1} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "grey",
+                    borderWidth: 5, }}><Text style={{ color: 'white' }}>{returnArr[i].name}</Text></View>
+                    <View key={keyIdx+2} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "grey",
+                    borderWidth: 5, }}><Text style={{ color: 'white' }}>{returnArr[i].age}</Text></View>
                 </View>
                 )
                 keyIdx = i + 3;
@@ -122,9 +124,11 @@ class GetAllUsersTable extends React.Component {
                 let keyIdx = 1;
                 for (var i = 0; i < returnArr.length; i++) {
                     localRows.push(
-                    <View key={keyIdx} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row' }}>
-                        <View key={keyIdx+1} style={{ flex: 1, alignSelf: 'stretch' }}><Text>{returnArr[i].name}</Text></View>
-                        <View key={keyIdx+2} style={{ flex: 1, alignSelf: 'stretch' }}><Text>{returnArr[i].age}</Text></View>
+                    <View key={keyIdx} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row',  borderWidth: 5 }}>
+                        <View key={keyIdx+1} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "grey",
+                    borderWidth: 5, }}><Text style={{ color: 'white' }}>{returnArr[i].name}</Text></View>
+                        <View key={keyIdx+2} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "grey",
+                    borderWidth: 5, }}><Text style={{ color: 'white' }}>{returnArr[i].age}</Text></View>
                     </View>
                     )
                     keyIdx = (i + 1)  + 3;
@@ -157,10 +161,10 @@ class GetAllUsersTable extends React.Component {
         <RowElement key={this.id}>
             <View style={{ minWidth: width-20, alignItems: 'center', justifyContent: 'center' }}>
                 <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row' }}>
-                    <View style={{ flex: 1, alignSelf: 'stretch' }}> 
+                    <View style={{ flex: 1, alignSelf: 'stretch',  borderWidth: 5 }}> 
                         <Text style={{ fontWeight: 'bold' }}>Name</Text>
                     </View>
-                    <View style={{ flex: 1, alignSelf: 'stretch' }}>
+                    <View style={{ flex: 1, alignSelf: 'stretch',  borderWidth: 5}}>
                         <Text style={{ fontWeight: 'bold' }}>Age</Text>
                     </View>
                 </View>

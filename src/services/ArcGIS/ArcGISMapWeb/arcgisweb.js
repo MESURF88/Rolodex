@@ -14,7 +14,7 @@ class ArcGISMap extends React.Component {
           } = Dimensions.get('window');
 
       return (
-        <Map style={{maxHeight: height - (height*.75), maxWidth: width-120}}/>
+        <Map style={{maxHeight: height - (height*.5), maxWidth: width-120}}/>
       );
     }
   };
