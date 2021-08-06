@@ -4,9 +4,9 @@ import { Platform, Dimensions } from 'react-native';
 import MapImg from '../../assets/WorldMap/WorldMap.png'
 import DBHandleInstance from '../../persistence/DBHandler'
 const MapElementComponent = Platform.select({  
-  web: () => require('../../services/ArcGIS/ArcGISMapWeb/index.js').default, 
-  ios: () => require('../../services/ArcGIS/ArcGISMapIOS/index.tsx').default,  // TODO: broken for IOS and android
-  android: () => require('../../services/ArcGIS/index.tsx').default,  // TODO: ../../services/ArcGIS/ArcGISMapIOS/index.tsx
+  web: () => require('../../services/ArcGIS/ArcGISMapWeb/arcgisweb.js').default, 
+  ios: () => require('../../services/GoogleMap/GoogleMapIOS/googleios.js').default,
+  android: () => require('../../services/GoogleMap/GoogleMapAndroid/googleandroid.js').default,
 })();
 
 import {
