@@ -15,7 +15,7 @@ export const RowElement = styled.Text`
 `
 
 export const TitleText = styled.Text`
-    max-height: 30px;
+    max-height: 40px;
     background-color: #A0F45B;
     align-items: center;
     justify-content: center;

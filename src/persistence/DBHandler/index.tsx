@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, View, Text, Dimensions, Button } from 'react-native';
+import { Platform, View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import Schema from './schema'
 import * as expoSQLite from 'expo-sqlite';
 // @ts-ignore 
@@ -165,21 +165,20 @@ class GetAllUsersTable extends React.Component {
           } = Dimensions.get('window');
 
         return (
-        <RowElement key={this.id} style={{maxHeight: height - (height*.65)}}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                <View style={{ flex: 1, borderWidth: 5  }}>
-                    <TitleText >You Have {this.getRowNumber()} Contacts</TitleText>
-                </View>
-                <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'flex-end', borderWidth: 5 }}>
-                    <Button
-                        title="Add More"
-                        color="#A0F45B"
-                        accessibilityLabel="Add more contacts with this button..."
-                        onPress={() => console.log('Button with adjusted color pressed')}
-                    />
-                </View>
-            </View>
+        <RowElement key={this.id} style={{maxHeight: height - (height*.65) }}>
             <View style={{ minWidth: width-20, alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ alignItems: 'center', justifyContent: 'center',  flexDirection: 'row' }}>
+                    <View style={{ flex: 1, borderWidth: 5  }}>
+                        <TitleText >You Have {this.getRowNumber()} Contacts</TitleText>
+                    </View>
+                    <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'flex-end', borderWidth: 5 }}>
+                        <TouchableOpacity
+                            style = {{ backgroundColor: '#A0F45B'}}
+                            accessibilityLabel="Add more contacts with this button..."
+                            onPress={() => console.log('Button with adjusted color pressed')}
+                            ><Text style={{color: "black"}}>Add More</Text></TouchableOpacity >
+                    </View>
+                </View>
                 <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row' }}>
                     <View style={{ flex: 1, alignSelf: 'stretch',  borderWidth: 5 }}> 
                         <Text style={{ fontWeight: 'bold' }}>Name</Text>
