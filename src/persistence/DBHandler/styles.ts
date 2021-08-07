@@ -9,7 +9,13 @@ export const BackgroundView = styled.SafeAreaView`
 `
 
 export const RowElement = styled.Text`
-    max-height: 100px;
+    background-color: #D6FF84;
+    align-items: center;
+    justify-content: center;
+`
+
+export const TitleText = styled.Text`
+    max-height: 30px;
     background-color: #D6FF84;
     align-items: center;
     justify-content: center;

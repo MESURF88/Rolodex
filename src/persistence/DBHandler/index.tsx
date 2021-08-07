@@ -10,6 +10,7 @@ import "firebase/database";
 // NOTE: USE FIREBASE for WEB
 
 import {
+    TitleText,
     RowElement,
 } from './styles'
 
@@ -42,6 +43,27 @@ const firebaseSnapshotToArray = function(snapshot) {
     return returnArr;
 };
 
+// Build the Table view Element
+const tableBuild = function(recvR) {
+    var returnArr = [];
+
+    let keyIdx = 0;
+    for (var i = 0; i < recvR.length; i++) {
+        returnArr.push(
+        <View key={keyIdx} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
+            <View key={keyIdx+1} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#F1ED70",
+            borderWidth: 5, }}><Text style={{ color: 'black' }}>{recvR[i].name}</Text></View>
+            <View key={keyIdx+2} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#F1ED70",
+            borderWidth: 5, }}><Text style={{ color: 'black' }}>{recvR[i].age}</Text></View>
+        </View>
+        )
+        keyIdx = i + 3;
+    }
+ 
+    return returnArr;
+};
+
+
 // sqlite db generate array of key values
 const sqliteRowsToArray = function(recvR) {
     var returnArr = [];
@@ -55,6 +77,7 @@ class GetAllUsersTable extends React.Component {
     state = {
         recvRawRows: [],
         rowsFormatted: [],
+        rowNumber: 0,
         name: "empty...",
         age: "empty...",
         readError: null,
@@ -66,24 +89,16 @@ class GetAllUsersTable extends React.Component {
       if (Platform.OS === "web") {
         try {
             dbref.get().then((snapshot) => {
+            // On success parse data
             if (snapshot.exists()) {
             
-            returnArr = firebaseSnapshotToArray(snapshot);
-            
-            let localRows = [];
-            let keyIdx = 0;
-            for (var i = 0; i < returnArr.length; i++) {
-                localRows.push(
-                <View key={keyIdx} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', borderWidth: 5 }}>
-                    <View key={keyIdx+1} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "grey",
-                    borderWidth: 5, }}><Text style={{ color: 'white' }}>{returnArr[i].name}</Text></View>
-                    <View key={keyIdx+2} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "grey",
-                    borderWidth: 5, }}><Text style={{ color: 'white' }}>{returnArr[i].age}</Text></View>
-                </View>
-                )
-                keyIdx = i + 3;
-            }
-            this.setState({ rowsFormatted: localRows });
+                returnArr = firebaseSnapshotToArray(snapshot);
+
+                if (returnArr !== null && returnArr.length !== 0) {
+                    this.setState({ rowNumber: returnArr.length});
+                }
+
+                this.setState({ rowsFormatted: tableBuild(returnArr) });
 
             }
             });
@@ -118,22 +133,10 @@ class GetAllUsersTable extends React.Component {
                 // On success parse data
                 if (this.state.recvRawRows !== null && this.state.recvRawRows.length !== 0) {
                     returnArr = sqliteRowsToArray(this.state.recvRawRows);
+                    this.setState({ rowNumber: this.state.recvRawRows.length});
                 }
 
-                let localRows = [];
-                let keyIdx = 1;
-                for (var i = 0; i < returnArr.length; i++) {
-                    localRows.push(
-                    <View key={keyIdx} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row',  borderWidth: 5 }}>
-                        <View key={keyIdx+1} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "grey",
-                    borderWidth: 5, }}><Text style={{ color: 'white' }}>{returnArr[i].name}</Text></View>
-                        <View key={keyIdx+2} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "grey",
-                    borderWidth: 5, }}><Text style={{ color: 'white' }}>{returnArr[i].age}</Text></View>
-                    </View>
-                    )
-                    keyIdx = (i + 1)  + 3;
-                }
-                this.setState({ rowsFormatted: localRows });
+                this.setState({ rowsFormatted: tableBuild(returnArr) });
 
                 }
 
@@ -150,7 +153,11 @@ class GetAllUsersTable extends React.Component {
         return this.state.rowsFormatted;
     }
 
-    id = 1;
+    getRowNumber= () => {
+        return this.state.rowNumber;
+    }
+
+    id = 0;
     render() {
         var {
             width,
@@ -158,7 +165,10 @@ class GetAllUsersTable extends React.Component {
           } = Dimensions.get('window');
 
         return (
-        <RowElement key={this.id}>
+        <RowElement key={this.id} >
+            <View>
+                <TitleText style={{ minWidth: width-20, alignItems: 'center', justifyContent: 'center', borderWidth: 5, fontWeight: 'bold'  }}>You Have {this.getRowNumber()} Contacts</TitleText>
+            </View>
             <View style={{ minWidth: width-20, alignItems: 'center', justifyContent: 'center' }}>
                 <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row' }}>
                     <View style={{ flex: 1, alignSelf: 'stretch',  borderWidth: 5 }}> 
