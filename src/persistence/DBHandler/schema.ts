@@ -11,7 +11,8 @@ export default function Columns(idx) {
         "first_known",
         "interest_category",
         "interest",
-        "been_awhile"
+        "been_awhile",
+        "notes"
     ];
 
     return column[idx];

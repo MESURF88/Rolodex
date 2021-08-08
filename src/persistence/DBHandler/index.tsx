@@ -113,7 +113,7 @@ class GetAllUsersTable extends React.Component {
 
                 trans.executeSql(
 
-                    'SELECT * FROM items ORDER BY ROWID ASC LIMIT 1',
+                    'SELECT * FROM items ORDER BY ROWID ASC',
                     [],
                     (_, { rows: { _array } })  => this.setState({ recvRawRows: _array }),
 
@@ -131,7 +131,7 @@ class GetAllUsersTable extends React.Component {
 
                 console.log("Database successfully retrieved");
                 // On success parse data
-                if (this.state.recvRawRows !== null && this.state.recvRawRows.length !== 0) {
+                if (this.state.recvRawRows !== null && this.state.recvRawRows.length !== 0) { console.log("check this out:",this.state.recvRawRows);
                     returnArr = sqliteRowsToArray(this.state.recvRawRows);
                     this.setState({ rowNumber: this.state.recvRawRows.length});
                 }
@@ -163,20 +163,14 @@ class GetAllUsersTable extends React.Component {
             width,
             height
           } = Dimensions.get('window');
+        var contactstring = (this.getRowNumber() === 1) ? "Contact" : "Contacts";
 
         return (
         <RowElement key={this.id} style={{maxHeight: height - (height*.65) }}>
             <View style={{ minWidth: width-20, alignItems: 'center', justifyContent: 'center' }}>
                 <View style={{ alignItems: 'center', justifyContent: 'center',  flexDirection: 'row' }}>
                     <View style={{ flex: 1, borderWidth: 5  }}>
-                        <TitleText >You Have {this.getRowNumber()} Contacts</TitleText>
-                    </View>
-                    <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'flex-end', borderWidth: 5 }}>
-                        <TouchableOpacity
-                            style = {{ backgroundColor: '#A0F45B'}}
-                            accessibilityLabel="Add more contacts with this button..."
-                            onPress={() => console.log('Button with adjusted color pressed')}
-                            ><Text style={{color: "black"}}>Add More</Text></TouchableOpacity >
+                        <TitleText >You Have {this.getRowNumber()} {contactstring} </TitleText>
                     </View>
                 </View>
                 <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row' }}>
@@ -234,24 +228,50 @@ class DBHandle {
 
             // Filling in sample data for offline sqlite database
             try {
+                // TODO: move this GET request api that can be accessed only from this app (api will call firebase and return array of values to update sqlite)
+                let testObj =  [ {
+                      "first_name" : "Kevin",
+                      "age" : "26"
+                    }, {
+                      "first_name" : "Joe",
+                      "age" : "57"
+                    } ]
+                  
+                let keys = Object.keys(testObj[0]);
+                let arrValues = [];
+
+                var len = testObj.length;
+            
+                for (let i = 0; i < len; i++) {
+                  arrValues.push(Object.values(testObj[i]));
+                }
+                console.log(arrValues[1]);
 
                 db.transaction(trans=>{
+
+                trans.executeSql(
+
+                    'DROP TABLE IF EXISTS items'
+                    
+                )
 
                 trans.executeSql(
 
                     'CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, age TEXT)'
                     
                 )
+                    trans.executeSql(
 
-                trans.executeSql(
+                        'INSERT INTO items (name, age) values (?, ?), (?, ?)', ["Levo", "50", "james", "50"],
+                        (trans, results) => {               
+                            if (results.rowsAffected > 0 ) {
+                              console.log('Insert success');              
+                            } else {
+                              console.log('Insert failed');
+                            }
+                          }
 
-                    'INSERT INTO items (name, age) values (?, ?)', ["KevDog", "26"],
-
-                ()=>{console.log("Data Inserted");},
-
-                ()=>{console.log("Data Not Inserted");}
-
-                )
+                    )
 
                 },
 
