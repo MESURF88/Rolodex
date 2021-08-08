@@ -52,7 +52,7 @@ const tableBuild = function(recvR) {
         returnArr.push(
         <View key={keyIdx} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
             <View key={keyIdx+1} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#F1ED70",
-            borderWidth: 5, }}><Text style={{ color: 'black' }}>{recvR[i].name}</Text></View>
+            borderWidth: 5, }}><Text style={{ color: 'black' }}>{recvR[i].first_name}</Text></View>
             <View key={keyIdx+2} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#F1ED70",
             borderWidth: 5, }}><Text style={{ color: 'black' }}>{recvR[i].age}</Text></View>
         </View>
@@ -78,8 +78,6 @@ class GetAllUsersTable extends React.Component {
         recvRawRows: [],
         rowsFormatted: [],
         rowNumber: 0,
-        name: "empty...",
-        age: "empty...",
         readError: null,
         writeError: null
     }
@@ -131,7 +129,7 @@ class GetAllUsersTable extends React.Component {
 
                 console.log("Database successfully retrieved");
                 // On success parse data
-                if (this.state.recvRawRows !== null && this.state.recvRawRows.length !== 0) { console.log("check this out:",this.state.recvRawRows);
+                if (this.state.recvRawRows !== null && this.state.recvRawRows.length !== 0) {
                     returnArr = sqliteRowsToArray(this.state.recvRawRows);
                     this.setState({ rowNumber: this.state.recvRawRows.length});
                 }
@@ -228,24 +226,33 @@ class DBHandle {
 
             // Filling in sample data for offline sqlite database
             try {
-                // TODO: move this GET request api that can be accessed only from this app (api will call firebase and return array of values to update sqlite)
+                // TODO: move this GET request api that can be accessed only from this app (api will call firebase and return array of values adn 2 length values rownum and columnum to update sqlite)
                 let testObj =  [ {
                       "first_name" : "Kevin",
                       "age" : "26"
                     }, {
                       "first_name" : "Joe",
-                      "age" : "57"
+                      "age" : "58"
                     } ]
                   
                 let keys = Object.keys(testObj[0]);
+                let argString = "";
                 let arrValues = [];
+                let tempArr = [];
+                let tempLength = 0;
 
-                var len = testObj.length;
-            
+                let len = testObj.length;
+                
                 for (let i = 0; i < len; i++) {
-                  arrValues.push(Object.values(testObj[i]));
+                    argString += "(";
+                    tempArr = Object.values(testObj[i]);
+                    tempLength = tempArr.length;
+                    for (let j = 0; j < tempLength; j++) {
+                        argString += ((j < (tempLength-1))? "?," : "?");
+                        arrValues.push(tempArr[j]);
+                    }
+                    argString += ((i < (len-1))? ")," : ")");
                 }
-                console.log(arrValues[1]);
 
                 db.transaction(trans=>{
 
@@ -257,21 +264,22 @@ class DBHandle {
 
                 trans.executeSql(
 
-                    'CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, age TEXT)'
+                    'CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, first_name TEXT, age TEXT)'
                     
                 )
-                    trans.executeSql(
 
-                        'INSERT INTO items (name, age) values (?, ?), (?, ?)', ["Levo", "50", "james", "50"],
-                        (trans, results) => {               
-                            if (results.rowsAffected > 0 ) {
-                              console.log('Insert success');              
-                            } else {
-                              console.log('Insert failed');
-                            }
-                          }
+                trans.executeSql(
 
-                    )
+                    'INSERT INTO items (first_name, age) values '+ String(argString), arrValues,
+                    (trans, results) => {               
+                        if (results.rowsAffected > 0 ) {
+                            console.log('Insert success');              
+                        } else {
+                            console.log('Insert failed');
+                        }
+                    }
+
+                )
 
                 },
 
