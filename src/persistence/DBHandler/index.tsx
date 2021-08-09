@@ -1,9 +1,10 @@
 import React from 'react';
 import { Platform, View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import axios from 'axios';
 import Schema from './schema'
 import * as expoSQLite from 'expo-sqlite';
 // @ts-ignore 
-import { API_KEY, APP_ID, MESSAGE_SENDER_ID } from '@env';
+import { API_KEY, APP_ID, MESSAGE_SENDER_ID, ISSUER, CLIENT_ID, CLIENT_SECRET, SCOPE } from '@env';
 import firebase from 'firebase/app'
 import "firebase/database";
 
@@ -42,6 +43,38 @@ const firebaseSnapshotToArray = function(snapshot) {
 
     return returnArr;
 };
+
+const url = "http://localhost:8080/linearData";
+const sendAPIRequest = async () => {
+    try {
+      const auth = await axios({
+        url: `${ISSUER}/v1/token`,
+        method: 'post',
+        auth: {
+          username: CLIENT_ID,
+          password: CLIENT_SECRET
+        },
+        params: {
+          grant_type: 'client_credentials',
+          scope: SCOPE
+        }
+      })
+  
+      const response = await axios({
+        url,
+        method: 'get',
+        data: null,
+        headers: {
+          authorization: `${auth.data.token_type} ${auth.data.access_token}`
+        }
+      })
+  
+      console.log(response.data);
+
+    } catch (error) {
+      console.log(`Error: ${error.message}`)
+    }
+  }
 
 // Build the Table view Element
 const tableBuild = function(recvR) {
@@ -227,6 +260,20 @@ class DBHandle {
             // Filling in sample data for offline sqlite database
             try {
                 // TODO: move this GET request api that can be accessed only from this app (api will call firebase and return array of values adn 2 length values rownum and columnum to update sqlite)
+                var argString = "";
+                var arrValues = []; 
+                sendAPIRequest().then(apiData => {
+                    for (let i = 0; i < apiData.rowNum; i++) {
+                        argString += "(";
+                        for (let j = 0; j < apiData.columnNum; j++) {
+                            argString += ((j < (apiData.columnNum-1))? "?," : "?");
+                        }
+                        argString += ((i < (apiData.rowNum-1))? ")," : ")");
+                    }
+                    arrValues = apiData.linearDat;
+                });
+
+               /*
                 let testObj =  [ {
                       "first_name" : "Kevin",
                       "age" : "26"
@@ -253,6 +300,7 @@ class DBHandle {
                     }
                     argString += ((i < (len-1))? ")," : ")");
                 }
+ */
 
                 db.transaction(trans=>{
 

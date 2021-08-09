@@ -14,6 +14,7 @@
     "@esri/react-arcgis": "^5.1.0",
     "@react-navigation/native": "^6.0.1",
     "@types/styled-components-react-native": "^5.1.1",
+    "axios": "0.18.0",
     "esri-loader": "^2.16.0",
     "expo": "~42.0.1",
     "expo-sqlite": "~9.2.1",
