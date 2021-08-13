@@ -44,20 +44,7 @@ const firebaseSnapshotToArray = function(snapshot) {
     return returnArr;
 };
 
-const url_post = `${ISSUER}/v1/token`
-const url_get = `${API_ENDPOINT}/linearData`;
-const config = {
-    headers: {'accept': 'application/json', 'content-type': 'application/json;charset=UTF-8' },
-    auth: {
-      username: CLIENT_ID,
-      password: CLIENT_SECRET
-    },
-    params: {
-      grant_type: 'client_credentials',
-      scope: SCOPE
-    },
-    data: {}
-}
+const url_post = `${ISSUER}/v1/token`;
 
 var resolvedToken = "2222";
 var dataBody = new URLSearchParams();
@@ -66,48 +53,7 @@ dataBody.append('scope', SCOPE);
 dataBody.append('access_token', resolvedToken);
 const basicb = base64.encode(CLIENT_ID+":"+CLIENT_SECRET);
 
-const sendAPIRequest = async () => {
-    try {
-
-    fetch(
-        url_post, {
-        method: "POST",
-        headers: {
-            'Authorization': 'Basic '+ basicb, 
-            'Accept': 'application/json',
-            'Content-type': 'application/x-www-form-urlencoded;charset=UTF-8'
-        },
-        xsrfCookieName: "csrftoken",
-        xsrfHeaderName: 'X-CSRF-Token',
-        body: dataBody.toString()
-        }
-    )
-    .then(resp => resp.json())
-    .then(auth => {
-        const authToken = auth;
-        console.log("GETNEXT",authToken.access_token);
-        fetch(
-            url_get, {
-            method: 'GET',
-            headers: {
-                'Authorization': `${authToken.token_type} ${authToken.access_token}`,
-                'Accept': 'application/json',
-                'Content-type': 'application/json'
-            }
-            }
-        ).then(resp => {
-            console.log(resp);
-        }
-        )
-        .catch(error => console.log("GET Error: ",error))
-    })
-    .catch(error => console.log("POST Error: ", error))
-
-    } catch (error) {
-      console.log(`Error: ${error.message}`)
-    }
-  }
-  sendAPIRequest();
+const getFirebaseFromApi = (authToken) => {  return fetch(`${API_ENDPOINT}/linearData/`, { headers: { 'Authorization': `${authToken.token_type} ${authToken.access_token}`}} )    .then((response) => response.json())    .then((json) => {      return json;    })    .catch((error) => {      console.error(error);    });};
 
 // Build the Table view Element
 const tableBuild = function(recvR) {
@@ -293,6 +239,27 @@ class DBHandle {
 
             // Filling in sample data for offline sqlite database
             try {
+                fetch(
+                    url_post, {
+                    method: "POST",
+                    headers: {
+                        'Authorization': 'Basic '+ basicb, 
+                        'Accept': 'application/json',
+                        'Content-type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                    },
+                    xsrfCookieName: "csrftoken",
+                    xsrfHeaderName: 'X-CSRF-Token',
+                    body: dataBody.toString()
+                    }
+                )
+                .then(resp => resp.json())
+                .then(auth => {
+                    const authToken = auth;
+                    getFirebaseFromApi(authToken).then(api => console.log(api))
+                    .catch(error => console.log("GET Error: ",error));
+                })
+                .catch(error => console.log("POST Error: ", error))
+
                 // TODO: move this GET request api that can be accessed only from this app (api will call firebase and return array of values adn 2 length values rownum and columnum to update sqlite)
                 /*var argString = "";
                 var arrValues = []; 
