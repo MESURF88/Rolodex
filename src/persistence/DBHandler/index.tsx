@@ -124,7 +124,7 @@ class GetAllUsersTable extends React.Component {
 
                 trans.executeSql(
 
-                    'SELECT * FROM items ORDER BY ROWID ASC',
+                    'SELECT * FROM users ORDER BY ROWID ASC',
                     [],
                     (_, { rows: { _array } })  => this.setState({ recvRawRows: _array }),
 
@@ -239,6 +239,7 @@ class DBHandle {
 
             // Filling in sample data for offline sqlite database
             try {
+
                 fetch(
                     url_post, {
                     method: "POST",
@@ -255,95 +256,102 @@ class DBHandle {
                 .then(resp => resp.json())
                 .then(auth => {
                     const authToken = auth;
-                    getFirebaseFromApi(authToken).then(api => console.log(api))
+                    getFirebaseFromApi(authToken).then(apiData => {
+                        var arrValues = []; 
+                        var argString = "";
+                        for (let i = 0; i < apiData.rowNum; i++) {
+                            argString += "(";
+                            for (let j = 0; j < apiData.columnNum; j++) {
+                                argString += ((j < (apiData.columnNum-1))? "?," : "?");
+                            }
+                            argString += ((i < (apiData.rowNum-1))? ")," : ")");
+                        }
+                        arrValues = apiData.linearDat;
+
+                        try {
+
+                            db.transaction(trans=>{
+
+                                trans.executeSql(
+                
+                                    'DROP TABLE IF EXISTS users'
+                                    
+                                )
+                
+                                trans.executeSql(
+                
+                                    'CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, first_name TEXT, last_name TEXT, communication_pref TEXT, latitude INTEGER, longitude INTEGER, age TEXT, first_known TEXT, interest_category TEXT, interest TEXT, been_awhile BOOLEAN, notes TEXT)'
+                                    
+                                )
+                
+                                trans.executeSql(
+                
+                                    'INSERT INTO users (first_name, last_name, communication_pref, latitude, longitude, age, first_known, interest_category, interest, been_awhile, notes) values '+ String(argString), arrValues,
+                                    (trans, results) => {               
+                                        if (results.rowsAffected > 0 ) {
+                                            console.log('Insert success');              
+                                        } else {
+                                            console.log('Insert failed');
+                                        }
+                                    }
+                
+                                )
+                
+                                },
+                
+                                (err)=>{
+                
+                                console.log("Error while opening Database ",err);
+                
+                                },
+                
+                                ()=>{
+                
+                                console.log("Database successfully created");
+                
+                                }
+                
+                                );
+                                            
+                            } catch (error) {
+
+                                console.log("Error! ",error);
+
+                            }
+
+                    })
                     .catch(error => console.log("GET Error: ",error));
                 })
                 .catch(error => console.log("POST Error: ", error))
-
-                // TODO: move this GET request api that can be accessed only from this app (api will call firebase and return array of values adn 2 length values rownum and columnum to update sqlite)
-                /*var argString = "";
-                var arrValues = []; 
-                sendAPIRequest().then(apiData => {
-                    for (let i = 0; i < apiData.rowNum; i++) {
-                        argString += "(";
-                        for (let j = 0; j < apiData.columnNum; j++) {
-                            argString += ((j < (apiData.columnNum-1))? "?," : "?");
-                        }
-                        argString += ((i < (apiData.rowNum-1))? ")," : ")");
-                    }
-                    arrValues = apiData.linearDat;
-                });
-                */
                
-                let testObj =  [ {
-                      "first_name" : "Kevin",
-                      "age" : "26"
-                    }, {
-                      "first_name" : "Joe",
-                      "age" : "58"
-                    } ]
+                // let testObj =  [ {
+                //       "first_name" : "Kevin",
+                //       "age" : "26"
+                //     }, {
+                //       "first_name" : "Joe",
+                //       "age" : "58"
+                //     } ]
                   
-                let keys = Object.keys(testObj[0]);
-                let argString = "";
-                let arrValues = [];
-                let tempArr = [];
-                let tempLength = 0;
+                // let keys = Object.keys(testObj[0]);
+                // let argString = "";
+                // let arrValues = [];
+                // let tempArr = [];
+                // let tempLength = 0;
 
-                let len = testObj.length;
+                // let len = testObj.length;
                 
-                for (let i = 0; i < len; i++) {
-                    argString += "(";
-                    tempArr = Object.values(testObj[i]);
-                    tempLength = tempArr.length;
-                    for (let j = 0; j < tempLength; j++) {
-                        argString += ((j < (tempLength-1))? "?," : "?");
-                        arrValues.push(tempArr[j]);
-                    }
-                    argString += ((i < (len-1))? ")," : ")");
-                }
+                // for (let i = 0; i < len; i++) {
+                //     argString += "(";
+                //     tempArr = Object.values(testObj[i]);
+                //     tempLength = tempArr.length;
+                //     for (let j = 0; j < tempLength; j++) {
+                //         argString += ((j < (tempLength-1))? "?," : "?");
+                //         arrValues.push(tempArr[j]);
+                //     }
+                //     argString += ((i < (len-1))? ")," : ")");
+                // }
 
-                db.transaction(trans=>{
-
-                trans.executeSql(
-
-                    'DROP TABLE IF EXISTS items'
-                    
-                )
-
-                trans.executeSql(
-
-                    'CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, first_name TEXT, age TEXT)'
-                    
-                )
-
-                trans.executeSql(
-
-                    'INSERT INTO items (first_name, age) values '+ String(argString), arrValues,
-                    (trans, results) => {               
-                        if (results.rowsAffected > 0 ) {
-                            console.log('Insert success');              
-                        } else {
-                            console.log('Insert failed');
-                        }
-                    }
-
-                )
-
-                },
-
-                ()=>{
-
-                console.log("Error while opening Database ");
-
-                },
-
-                ()=>{
-
-                console.log("Database successfully created");
-
-                }
-
-                );
+               
 
             } catch (error) {
 
