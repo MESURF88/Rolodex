@@ -1,10 +1,10 @@
 import React from 'react';
 import { Platform, View, Text, Dimensions, TouchableOpacity } from 'react-native';
-import axios from 'axios';
+import base64 from 'react-native-base64'
 import Schema from './schema'
 import * as expoSQLite from 'expo-sqlite';
 // @ts-ignore 
-import { API_KEY, APP_ID, MESSAGE_SENDER_ID, ISSUER, CLIENT_ID, CLIENT_SECRET, SCOPE } from '@env';
+import { API_KEY, APP_ID, MESSAGE_SENDER_ID, ISSUER, CLIENT_ID, CLIENT_SECRET, SCOPE, API_ENDPOINT } from '@env';
 import firebase from 'firebase/app'
 import "firebase/database";
 
@@ -44,37 +44,70 @@ const firebaseSnapshotToArray = function(snapshot) {
     return returnArr;
 };
 
-const url = "http://localhost:8080/linearData";
+const url_post = `${ISSUER}/v1/token`
+const url_get = `${API_ENDPOINT}/linearData`;
+const config = {
+    headers: {'accept': 'application/json', 'content-type': 'application/json;charset=UTF-8' },
+    auth: {
+      username: CLIENT_ID,
+      password: CLIENT_SECRET
+    },
+    params: {
+      grant_type: 'client_credentials',
+      scope: SCOPE
+    },
+    data: {}
+}
+
+var resolvedToken = "2222";
+var dataBody = new URLSearchParams();
+dataBody.append('grant_type', 'client_credentials');
+dataBody.append('scope', SCOPE);
+dataBody.append('access_token', resolvedToken);
+const basicb = base64.encode(CLIENT_ID+":"+CLIENT_SECRET);
+
 const sendAPIRequest = async () => {
     try {
-      const auth = await axios({
-        url: `${ISSUER}/v1/token`,
-        method: 'post',
-        auth: {
-          username: CLIENT_ID,
-          password: CLIENT_SECRET
-        },
-        params: {
-          grant_type: 'client_credentials',
-          scope: SCOPE
-        }
-      })
-  
-      const response = await axios({
-        url,
-        method: 'get',
-        data: null,
+
+    fetch(
+        url_post, {
+        method: "POST",
         headers: {
-          authorization: `${auth.data.token_type} ${auth.data.access_token}`
+            'Authorization': 'Basic '+ basicb, 
+            'Accept': 'application/json',
+            'Content-type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        xsrfCookieName: "csrftoken",
+        xsrfHeaderName: 'X-CSRF-Token',
+        body: dataBody.toString()
         }
-      })
-  
-      console.log(response.data);
+    )
+    .then(resp => resp.json())
+    .then(auth => {
+        const authToken = auth;
+        console.log("GETNEXT",authToken.access_token);
+        fetch(
+            url_get, {
+            method: 'GET',
+            headers: {
+                'Authorization': `${authToken.token_type} ${authToken.access_token}`,
+                'Accept': 'application/json',
+                'Content-type': 'application/json'
+            }
+            }
+        ).then(resp => {
+            console.log(resp);
+        }
+        )
+        .catch(error => console.log("GET Error: ",error))
+    })
+    .catch(error => console.log("POST Error: ", error))
 
     } catch (error) {
       console.log(`Error: ${error.message}`)
     }
   }
+  sendAPIRequest();
 
 // Build the Table view Element
 const tableBuild = function(recvR) {
@@ -114,6 +147,7 @@ class GetAllUsersTable extends React.Component {
         readError: null,
         writeError: null
     }
+
 
     componentDidMount = async () => {
       var returnArr = [];
@@ -260,7 +294,7 @@ class DBHandle {
             // Filling in sample data for offline sqlite database
             try {
                 // TODO: move this GET request api that can be accessed only from this app (api will call firebase and return array of values adn 2 length values rownum and columnum to update sqlite)
-                var argString = "";
+                /*var argString = "";
                 var arrValues = []; 
                 sendAPIRequest().then(apiData => {
                     for (let i = 0; i < apiData.rowNum; i++) {
@@ -272,8 +306,8 @@ class DBHandle {
                     }
                     arrValues = apiData.linearDat;
                 });
-
-               /*
+                */
+               
                 let testObj =  [ {
                       "first_name" : "Kevin",
                       "age" : "26"
@@ -300,7 +334,6 @@ class DBHandle {
                     }
                     argString += ((i < (len-1))? ")," : ")");
                 }
- */
 
                 db.transaction(trans=>{
 
