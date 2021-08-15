@@ -15,6 +15,12 @@ export default function Columns(idx) {
         "notes"
     ];
 
-    return column[idx];
+    if (idx < column.length) {
+
+        return column[idx];
+    }
+    else {
+        return "Error";
+    }
 
 }
