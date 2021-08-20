@@ -13,6 +13,7 @@ import "firebase/database";
 import {
     TitleText,
     RowElement,
+    DataScroll,
 } from './styles'
 
 // Initialize Firebase local only
@@ -66,7 +67,7 @@ const tableBuild = function(recvR) {
             <View key={keyIdx+1} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#F1ED70",
             borderWidth: 5, }}><Text style={{ color: 'black' }}>{recvR[i].first_name}</Text></View>
             <View key={keyIdx+2} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#F1ED70",
-            borderWidth: 5, }}><Text style={{ color: 'black' }}>{recvR[i].age}</Text></View>
+            borderWidth: 5, }}><Text style={{ color: 'black' }}>{recvR[i].been_awhile}</Text></View>
         </View>
         )
         keyIdx = i + 3;
@@ -180,19 +181,22 @@ class GetAllUsersTable extends React.Component {
         <RowElement key={this.id} style={{maxHeight: height - (height*.65) }}>
             <View style={{ minWidth: width-20, alignItems: 'center', justifyContent: 'center' }}>
                 <View style={{ alignItems: 'center', justifyContent: 'center',  flexDirection: 'row' }}>
-                    <View style={{ flex: 1, borderWidth: 5  }}>
+                    <View style={{ flex: 1, borderWidth: 4  }}>
                         <TitleText >You Have {this.getRowNumber()} {contactstring} </TitleText>
                     </View>
                 </View>
+                
                 <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row' }}>
-                    <View style={{ flex: 1, alignSelf: 'stretch',  borderWidth: 5 }}> 
+                    <View style={{ flex: 1, alignSelf: 'stretch',  borderWidth: 4, height: 70 }}> 
                         <Text style={{ fontWeight: 'bold' }}>Name</Text>
                     </View>
-                    <View style={{ flex: 1, alignSelf: 'stretch',  borderWidth: 5}}>
-                        <Text style={{ fontWeight: 'bold' }}>Age</Text>
+                    <View style={{ flex: 1, alignSelf: 'stretch',  borderWidth: 4, height: 70 }}>
+                        <Text style={{ fontWeight: 'bold' }}>Been Awhile</Text>
                     </View>
                 </View>
-                {this.getRows()}
+                <DataScroll>
+                    {this.getRows()}
+                </DataScroll>
             </View>
         </RowElement>
         );

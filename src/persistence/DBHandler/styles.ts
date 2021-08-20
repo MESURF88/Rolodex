@@ -21,3 +21,8 @@ export const TitleText = styled.Text`
     justify-content: center;
     font-weight: bold;
 `
+
+export const DataScroll = styled.ScrollView`
+    marginTop: 0;
+    width: 300px;
+`
