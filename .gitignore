@@ -15,6 +15,7 @@ rolodexv0.2-workspace.code-workspace
 *.orig.*
 web-build/
 dummyfile.ts
+google.html
 
 # macOS
 .DS_Store

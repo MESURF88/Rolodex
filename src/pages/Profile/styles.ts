@@ -20,3 +20,12 @@ export const Image = styled.Image`
     height: 300px; 
     padding: 10px;
 `
+export const ButtonNextTab = styled.TouchableOpacity`
+    background-color: #A0F45B;
+    border: 1px;
+    flex: 1;
+    height: 50px; 
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+`
