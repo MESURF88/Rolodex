@@ -181,7 +181,7 @@ class GetAllUsersTable extends React.Component {
         var contactstring = (this.getRowNumber() === 1) ? "Contact" : "Contacts";
 
         return (
-        <RowElement key={this.id} style={{maxHeight: height - (height*.65) }}>
+        <RowElement key={this.id} style={{maxHeight: height - (height*.25) }}>
             <View style={{ minWidth: width-20, alignItems: 'center', justifyContent: 'center' }}>
                 <View style={{ alignItems: 'center', justifyContent: 'center',  flexDirection: 'row' }}>
                     <View style={{ flex: 1, borderWidth: 4  }}>
@@ -190,10 +190,10 @@ class GetAllUsersTable extends React.Component {
                 </View>
                 
                 <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row' }}>
-                    <View style={{ flex: 1, alignSelf: 'stretch',  borderWidth: 4, height: 70 }}> 
+                    <View style={{ flex: 1, alignSelf: 'stretch',  borderWidth: 4, height: 50 }}> 
                         <Text style={{ fontWeight: 'bold' }}>Name</Text>
                     </View>
-                    <View style={{ flex: 1, alignSelf: 'stretch',  borderWidth: 4, height: 70 }}>
+                    <View style={{ flex: 1, alignSelf: 'stretch',  borderWidth: 4, height: 50 }}>
                         <Text style={{ fontWeight: 'bold' }}>Been Awhile</Text>
                     </View>
                 </View>

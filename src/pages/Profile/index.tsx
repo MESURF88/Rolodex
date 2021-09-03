@@ -1,5 +1,5 @@
 import React from 'react'
-import { Platform, Text, View} from 'react-native';
+import { Platform, Dimensions, View} from 'react-native';
 // @ts-ignore 
 import MapImg from '../../assets/WorldMap/WorldMap.png'
 import DBHandleInstance from '../../persistence/DBHandler'
@@ -21,13 +21,18 @@ var GetAllUsersTable = DBHandleInstance.GetAllUserRows();
 
 const ProfileScreen = ({navigation, route}) => {
 
+    var {
+      width,
+      height
+    } = Dimensions.get('window');
+
     const { name } = route.params;
     return (
       <BackgroundView>
         <TitleText>This is {name}'s profile</TitleText>
            <Image source={MapImg} style={{maxHeight:50, maxWidth: 50}}/>
             <GetAllUsersTable />
-            <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
+            <View style={{ position: 'absolute', top: height - 45, width: width, flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
               <ButtonNextTab onPress={() => navigation.navigate('Home', {})}>
                 <TabText>Home</TabText>
               </ButtonNextTab>

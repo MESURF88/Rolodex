@@ -1,5 +1,5 @@
 import React from 'react'
-import { View} from 'react-native';
+import { View, Dimensions } from 'react-native';
 // @ts-ignore 
 import MapImg from '../../assets/WorldMap/WorldMap.png'
 import DBHandleInstance from '../../persistence/DBHandler'
@@ -13,13 +13,18 @@ import {
 } from './styles'
 
 const AddContactScreen = ({navigation, route}) => {
+    
+    var {
+      width,
+      height
+    } = Dimensions.get('window');
 
     const { name } = route.params;
     return (
       <BackgroundView>
         <TitleText>Add Contact</TitleText>
            <Image source={MapImg} style={{maxHeight:50, maxWidth: 50}}/>
-           <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
+           <View style={{ position: 'absolute', top: height - 45, width: width, flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
               <ButtonNextTab onPress={() => navigation.navigate('Home', {})}>
                 <TabText>Home</TabText>
               </ButtonNextTab>
