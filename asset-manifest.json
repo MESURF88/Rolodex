@@ -1,23 +1,23 @@
 {
   "files": {
-    "app.js": "/Rolodex/static/js/app.372f5b43.chunk.js",
-    "app.js.map": "/Rolodex/static/js/app.372f5b43.chunk.js.map",
+    "app.js": "/Rolodex/static/js/app.aec0cdec.chunk.js",
+    "app.js.map": "/Rolodex/static/js/app.aec0cdec.chunk.js.map",
     "runtime~app.js": "/Rolodex/static/js/runtime~app.317a4a54.js",
     "runtime~app.js.map": "/Rolodex/static/js/runtime~app.317a4a54.js.map",
-    "static/js/2.2c56b2c1.chunk.js": "/Rolodex/static/js/2.2c56b2c1.chunk.js",
-    "static/js/2.2c56b2c1.chunk.js.map": "/Rolodex/static/js/2.2c56b2c1.chunk.js.map",
+    "static/js/2.b50d01b6.chunk.js": "/Rolodex/static/js/2.b50d01b6.chunk.js",
+    "static/js/2.b50d01b6.chunk.js.map": "/Rolodex/static/js/2.b50d01b6.chunk.js.map",
     "favicon-16.png": "/Rolodex/favicon-16.png",
     "favicon-32.png": "/Rolodex/favicon-32.png",
     "favicon.ico": "/Rolodex/favicon.ico",
     "index.html": "/Rolodex/index.html",
     "manifest.json": "/Rolodex/manifest.json",
     "serve.json": "/Rolodex/serve.json",
-    "static/js/2.2c56b2c1.chunk.js.LICENSE.txt": "/Rolodex/static/js/2.2c56b2c1.chunk.js.LICENSE.txt",
+    "static/js/2.b50d01b6.chunk.js.LICENSE.txt": "/Rolodex/static/js/2.b50d01b6.chunk.js.LICENSE.txt",
     "static/media/WorldMap.png": "/Rolodex/static/media/WorldMap.e02fb1bf.png"
   },
   "entrypoints": [
     "static/js/runtime~app.317a4a54.js",
-    "static/js/2.2c56b2c1.chunk.js",
-    "static/js/app.372f5b43.chunk.js"
+    "static/js/2.b50d01b6.chunk.js",
+    "static/js/app.aec0cdec.chunk.js"
   ]
 }
