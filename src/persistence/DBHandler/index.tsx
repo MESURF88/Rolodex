@@ -113,6 +113,9 @@ class GetAllUsersTable extends React.Component {
                 this.setState({ rowsFormatted: tableBuild(returnArr) });
 
             }
+            })
+            .catch((err) => {
+                console.log(err);
             });
         } catch (error) {
             this.setState({ readError: error.message });
@@ -327,35 +330,6 @@ class DBHandle {
                     .catch(error => console.log("GET Error: ",error));
                 })
                 .catch(error => console.log("POST Error: ", error))
-               
-                // let testObj =  [ {
-                //       "first_name" : "Kevin",
-                //       "age" : "26"
-                //     }, {
-                //       "first_name" : "Joe",
-                //       "age" : "58"
-                //     } ]
-                  
-                // let keys = Object.keys(testObj[0]);
-                // let argString = "";
-                // let arrValues = [];
-                // let tempArr = [];
-                // let tempLength = 0;
-
-                // let len = testObj.length;
-                
-                // for (let i = 0; i < len; i++) {
-                //     argString += "(";
-                //     tempArr = Object.values(testObj[i]);
-                //     tempLength = tempArr.length;
-                //     for (let j = 0; j < tempLength; j++) {
-                //         argString += ((j < (tempLength-1))? "?," : "?");
-                //         arrValues.push(tempArr[j]);
-                //     }
-                //     argString += ((i < (len-1))? ")," : ")");
-                // }
-
-               
 
             } catch (error) {
 
