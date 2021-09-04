@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import { Platform } from 'react-native';
 import base64 from 'react-native-base64'
 import Schema from './schema'
 import * as expoSQLite from 'expo-sqlite';
@@ -9,12 +9,6 @@ import firebase from 'firebase/app'
 import "firebase/database";
 
 // NOTE: USE FIREBASE for WEB
-
-import {
-    TitleText,
-    RowElement,
-    DataScroll,
-} from './styles'
 
 // Initialize Firebase local only
 const firebaseConfig = {
@@ -31,6 +25,8 @@ var db;
 
 // Declare web db local only
 var dbref;
+
+var tableClass;
 
 // Web db generate array of key values
 const firebaseSnapshotToArray = function(snapshot) {
@@ -56,27 +52,6 @@ const basicb = base64.encode(CLIENT_ID+":"+CLIENT_SECRET);
 
 const getFirebaseFromApi = (authToken) => {  return fetch(`${API_ENDPOINT}/linearData/`, { headers: { 'Authorization': `${authToken.token_type} ${authToken.access_token}`}} )    .then((response) => response.json())    .then((json) => {      return json;    })    .catch((error) => {      console.error(error);    });};
 
-// Build the Table view Element
-const tableBuild = function(recvR) {
-    var returnArr = [];
-
-    let keyIdx = 0;
-    for (var i = 0; i < recvR.length; i++) {
-        returnArr.push(
-        <View key={keyIdx} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
-            <View key={keyIdx+1} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#F1ED70",
-            borderWidth: 5, }}><Text style={{ color: 'black' }}>{recvR[i].first_name}</Text></View>
-            <View key={keyIdx+2} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#F1ED70",
-            borderWidth: 5, }}><Text style={{ color: 'black' }}>{recvR[i].been_awhile}</Text></View>
-        </View>
-        )
-        keyIdx = i + 3;
-    }
- 
-    return returnArr;
-};
-
-
 // sqlite db generate array of key values
 const sqliteRowsToArray = function(recvR) {
     var returnArr = [];
@@ -89,12 +64,11 @@ const sqliteRowsToArray = function(recvR) {
 class GetAllUsersTable extends React.Component {
     state = {
         recvRawRows: [],
-        rowsFormatted: [],
+        rowsData: [],
         rowNumber: 0,
         readError: null,
         writeError: null
     }
-
 
     componentDidMount = async () => {
       var returnArr = [];
@@ -110,7 +84,7 @@ class GetAllUsersTable extends React.Component {
                     this.setState({ rowNumber: returnArr.length});
                 }
 
-                this.setState({ rowsFormatted: tableBuild(returnArr) });
+                this.setState({ rowsData: returnArr });
 
             }
             })
@@ -151,7 +125,7 @@ class GetAllUsersTable extends React.Component {
                     this.setState({ rowNumber: this.state.recvRawRows.length});
                 }
 
-                this.setState({ rowsFormatted: tableBuild(returnArr) });
+                this.setState({ rowsData: returnArr });
 
                 }
 
@@ -164,45 +138,12 @@ class GetAllUsersTable extends React.Component {
 
     }
 
-    getRows= () => {
-        return this.state.rowsFormatted;
+    getRows = () => {
+        return this.state.rowsData;
     }
 
-    getRowNumber= () => {
+    getRowNumber = () => {
         return this.state.rowNumber;
-    }
-
-    id = 0;
-    render() {
-        var {
-            width,
-            height
-          } = Dimensions.get('window');
-        var contactstring = (this.getRowNumber() === 1) ? "Contact" : "Contacts";
-
-        return (
-        <RowElement key={this.id} style={{maxHeight: height - (height*.25) }}>
-            <View style={{ minWidth: width-20, alignItems: 'center', justifyContent: 'center' }}>
-                <View style={{ alignItems: 'center', justifyContent: 'center',  flexDirection: 'row' }}>
-                    <View style={{ flex: 1, borderWidth: 4  }}>
-                        <TitleText >You Have {this.getRowNumber()} {contactstring} </TitleText>
-                    </View>
-                </View>
-                
-                <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row' }}>
-                    <View style={{ flex: 1, alignSelf: 'stretch',  borderWidth: 4, height: 50 }}> 
-                        <Text style={{ fontWeight: 'bold' }}>Name</Text>
-                    </View>
-                    <View style={{ flex: 1, alignSelf: 'stretch',  borderWidth: 4, height: 50 }}>
-                        <Text style={{ fontWeight: 'bold' }}>Been Awhile</Text>
-                    </View>
-                </View>
-                <DataScroll>
-                    {this.getRows()}
-                </DataScroll>
-            </View>
-        </RowElement>
-        );
     }
 
 }
@@ -231,6 +172,13 @@ class DBHandle {
     constructor() {
         // Open database method (private) and web uses firebase RTDB, app uses sqlite
         db = this.#openDatabase();
+        tableClass = {
+            recvRawRows: [],
+            rowsData: [],
+            rowNumber: 0,
+            readError: null,
+            writeError: null
+        }
     }
 
     InitAllDB() {
@@ -339,11 +287,81 @@ class DBHandle {
         }
     }
 
+    AllUserRowsDB() {
+        var returnArr = [];
+        if (Platform.OS === "web") {
+          try {
+              dbref.get().then((snapshot) => {
+              // On success parse data
+              if (snapshot.exists()) {
+              
+                  returnArr = firebaseSnapshotToArray(snapshot);
+  
+                  if (returnArr !== null && returnArr.length !== 0) {
+                      tableClass.rowNumber = returnArr.length;
+                  }
+  
+                  tableClass.rowsData = returnArr;
+  
+              }
+              })
+              .catch((err) => {
+                  console.log(err);
+              });
+          } catch (error) {
+            tableClass.readError = error.message;
+          }
+        }
+        else {
+          try {
+  
+              db.transaction(trans=>{
+  
+                  trans.executeSql(
+  
+                      'SELECT * FROM users ORDER BY ROWID ASC',
+                      [],
+                      (_, { rows: { _array } })  => tableClass.recvRawRows = _array,
+  
+                  )
+  
+                  },
+  
+                  ()=>{
+  
+                  console.log("Error while opening Database ");
+  
+                  },
+  
+                  ()=>{
+  
+                  console.log("Database successfully retrieved");
+                  // On success parse data
+                  if (tableClass.recvRawRows !== null && tableClass.recvRawRows.length !== 0) {
+                      returnArr = sqliteRowsToArray(tableClass.recvRawRows);
+                      tableClass.rowNumber = tableClass.recvRawRows.length;
+                  }
+  
+                  tableClass.rowsData = returnArr;
+  
+                  }
+  
+              );
+  
+          } catch (error) {
+            tableClass.readError = error.message;
+          }
+        }
+  
+      }
+
 
     // Get items of firebase db or sqlite db
     GetAllUserRows() {
-        return GetAllUsersTable;
+        this.AllUserRowsDB();
+        return tableClass.rowsData;
     }
+
 }
 
 const DBHandleInstance = new DBHandle();

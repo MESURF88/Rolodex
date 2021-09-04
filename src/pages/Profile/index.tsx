@@ -1,5 +1,5 @@
 import React from 'react'
-import { Platform, Dimensions, View} from 'react-native';
+import { Platform, Dimensions, View, Text} from 'react-native';
 // @ts-ignore 
 import MapImg from '../../assets/WorldMap/WorldMap.png'
 import DBHandleInstance from '../../persistence/DBHandler'
@@ -14,24 +14,70 @@ import {
     TitleText,
     Image,
     ButtonNextTab,
-    TabText
+    TabText,
+    RowElement,
+    DataScroll,
 } from './styles'
 
-var GetAllUsersTable = DBHandleInstance.GetAllUserRows();
+// Build the Table view Element
+const tableBuild = function(recvR, navigation, route) {
+  var returnArr = [];
+
+  let keyIdx = 0;
+  for (var i = 0; i < recvR.length; i++) {
+      returnArr.push(
+      <View key={keyIdx} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
+          <View key={keyIdx+1} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#F1ED70",
+          borderWidth: 5, }}><Text style={{ color: 'black' }}>{recvR[i].first_name}</Text></View>
+          <View key={keyIdx+2} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#F1ED70",
+          borderWidth: 5, }}><Text style={{ color: 'black' }}>{recvR[i].been_awhile}</Text></View>
+      </View>
+      )
+      keyIdx = i + 3;
+  }
+
+  return returnArr;
+};
 
 const ProfileScreen = ({navigation, route}) => {
+
+    var rowsData = DBHandleInstance.GetAllUserRows();
+    var rowNumber = rowsData.length;
 
     var {
       width,
       height
     } = Dimensions.get('window');
 
+    var contactstring = (rowNumber === 1) ? "Contact" : "Contacts";
+
+    const id = 0;
     const { name } = route.params;
     return (
       <BackgroundView>
         <TitleText>This is {name}'s profile</TitleText>
            <Image source={MapImg} style={{maxHeight:50, maxWidth: 50}}/>
-            <GetAllUsersTable />
+           <RowElement key={id} style={{maxHeight: height - (height*.25) }}>
+            <View style={{ minWidth: width-20, alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ alignItems: 'center', justifyContent: 'center',  flexDirection: 'row' }}>
+                    <View style={{ flex: 1, borderWidth: 4  }}>
+                        <TitleText >You Have {rowNumber} {contactstring} </TitleText>
+                    </View>
+                </View>
+                
+                <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row' }}>
+                    <View style={{ flex: 1, alignSelf: 'stretch',  borderWidth: 4, height: 50 }}> 
+                        <Text style={{ fontWeight: 'bold' }}>Name</Text>
+                    </View>
+                    <View style={{ flex: 1, alignSelf: 'stretch',  borderWidth: 4, height: 50 }}>
+                        <Text style={{ fontWeight: 'bold' }}>Been Awhile</Text>
+                    </View>
+                </View>
+                <DataScroll>
+                    {tableBuild(rowsData, navigation, route)}
+                </DataScroll>
+              </View>
+            </RowElement>
             <View style={{ position: 'absolute', top: height - 45, width: width, flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
               <ButtonNextTab onPress={() => navigation.navigate('Home', {})}>
                 <TabText>Home</TabText>
