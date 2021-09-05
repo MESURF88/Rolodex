@@ -13,7 +13,6 @@ export const TitleText = styled.Text`
     background-color: #A0F45B;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
 `
 
 export const Image = styled.Image`
@@ -34,15 +33,4 @@ export const ButtonNextTab = styled.TouchableOpacity`
 export const TabText = styled.Text`
     fontSize: 12px; 
     align-items: center;
-`
-
-export const RowElement = styled.Text`
-    background-color: #A0F45B;
-    align-items: center;
-    justify-content: center;
-`
-
-export const DataListTable = styled.FlatList`
-    marginTop: 0;
-    width: 300px;
 `
