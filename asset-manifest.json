@@ -1,7 +1,7 @@
 {
   "files": {
-    "app.js": "/Rolodex/static/js/app.807af4a0.chunk.js",
-    "app.js.map": "/Rolodex/static/js/app.807af4a0.chunk.js.map",
+    "app.js": "/Rolodex/static/js/app.0a9dd9df.chunk.js",
+    "app.js.map": "/Rolodex/static/js/app.0a9dd9df.chunk.js.map",
     "runtime~app.js": "/Rolodex/static/js/runtime~app.317a4a54.js",
     "runtime~app.js.map": "/Rolodex/static/js/runtime~app.317a4a54.js.map",
     "static/js/2.a7ff3d64.chunk.js": "/Rolodex/static/js/2.a7ff3d64.chunk.js",
@@ -34,6 +34,6 @@
   "entrypoints": [
     "static/js/runtime~app.317a4a54.js",
     "static/js/2.a7ff3d64.chunk.js",
-    "static/js/app.807af4a0.chunk.js"
+    "static/js/app.0a9dd9df.chunk.js"
   ]
 }
