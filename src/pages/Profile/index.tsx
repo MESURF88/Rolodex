@@ -74,18 +74,18 @@ const ProfileScreen = ({navigation, route}) => {
                 <DataListTable
                 data={rowsData}
                 // @ts-ignore 
-                keyExtractor={item => (Platform.OS === "web") ? item.person_id.toString() : item.id.toString() }
+                keyExtractor={item => item.person_id.toString()}
                 showsHorizontalScrollIndicator={false}
                 renderItem={({ item, index }) => (
                 // @ts-ignore
-                <View key={(Platform.OS === "web") ? item.person_id.toString() : item.id.toString() } style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
+                <View key={item.person_id.toString()} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
                   <View style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#d6ff84",
                   borderWidth: 5, }}><Text style={{ color: 'black' }}>{item.first_name}</Text></View>
                   <View style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#d6ff84",
                   borderWidth: 5, }}><Text style={{ color: 'black' }}>{item.been_awhile}</Text></View>
                   <View style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#d6ff84",
                   borderWidth: 5, }}>
-                    <TouchableOpacity style={{flex: 1, alignSelf: 'stretch', flexDirection: 'row'}} onPress={ () => handleMoreClick((Platform.OS === "web") ? item.person_id.toString() : item.id.toString())} >
+                    <TouchableOpacity style={{flex: 1, alignSelf: 'stretch', flexDirection: 'row'}} onPress={ () => handleMoreClick( item.person_id.toString() )} >
                       <Icon  name='sc-telegram'  type='evilicon'  color='#f5ad44'/>
                     </TouchableOpacity>
                   </View>

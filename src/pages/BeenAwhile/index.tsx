@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Dimensions } from 'react-native';
+import { Platform, View, Dimensions } from 'react-native';
 // @ts-ignore 
 import MapImg from '../../assets/WorldMap/WorldMap.png'
 import DBHandleInstance from '../../persistence/DBHandler'
@@ -24,7 +24,7 @@ const BeenAwhileScreen = ({navigation, route}) => {
       <BackgroundView>
         <TitleText>Been Awhile Since You Talked</TitleText>
            <Image source={MapImg} style={{maxHeight:50, maxWidth: 50}}/>
-           <View style={{ position: 'absolute', top: height - 45, width: width, flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
+           <View style={{ position: 'absolute', top: (Platform.OS === "web") ? -1 : height - 45, width: width, flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
               <ButtonNextTab onPress={() => navigation.navigate('Home', {})}>
                 <TabText>Home</TabText>
               </ButtonNextTab>

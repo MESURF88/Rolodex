@@ -29,7 +29,7 @@ const MoreInformationScreen = ({navigation, route}) => {
       <BackgroundView>
         <TitleText>{id} Profile</TitleText>
            <Image source={MapImg} style={{maxHeight:50, maxWidth: 50}}/>
-           <View style={{ position: 'absolute', top: height - 45, width: width, flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
+           <View style={{ position: 'absolute', top: (Platform.OS === "web") ? -1 : height - 45, width: width, flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
               <ButtonNextTab onPress={() => navigation.navigate('Home', {})}>
                 <TabText>Home</TabText>
               </ButtonNextTab>
