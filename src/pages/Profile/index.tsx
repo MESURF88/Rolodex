@@ -45,6 +45,7 @@ const ProfileScreen = ({navigation, route}) => {
     navigation.navigate('MoreInformation', {id: indexProp});
   }
 
+  // TODO: fix cut off profile name on web and missing background
   const id = 0;
   const { name } = route.params;
   return (
@@ -86,7 +87,7 @@ const ProfileScreen = ({navigation, route}) => {
                   <View style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#d6ff84",
                   borderWidth: 5, }}>
                     <TouchableOpacity style={{flex: 1, alignSelf: 'stretch', flexDirection: 'row'}} onPress={ () => handleMoreClick( item.person_id.toString() )} >
-                      <Icon  name='sc-telegram'  type='evilicon'  color='#f5ad44'/>
+                      <Icon  name='navicon'  type='evilicon'  color='#f5ad44'/>
                     </TouchableOpacity>
                   </View>
                 </View> )} />

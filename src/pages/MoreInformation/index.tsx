@@ -56,7 +56,7 @@ const MoreInformationScreen = ({navigation, route}) => {
             <View style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#d6ff84",
             borderWidth: 5, }}>
               <TouchableOpacity style={{flex: 1, alignSelf: 'stretch', flexDirection: 'row'}} onPress={ () => console.log( "todo" )} >
-                <Icon  name='sc-telegram'  type='evilicon'  color='#f5ad44'/>
+                <Icon  name='pencil'  type='evilicon'  color='#f5ad44'/>
               </TouchableOpacity>
             </View>
           </View>
@@ -68,7 +68,7 @@ const MoreInformationScreen = ({navigation, route}) => {
             <View style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#d6ff84",
             borderWidth: 5, }}>
               <TouchableOpacity style={{flex: 1, alignSelf: 'stretch', flexDirection: 'row'}} onPress={ () => console.log( "todo" )} >
-                <Icon  name='sc-telegram'  type='evilicon'  color='#f5ad44'/>
+                <Icon  name='pencil'  type='evilicon'  color='#f5ad44'/>
               </TouchableOpacity>
             </View>
           </View>
@@ -80,7 +80,7 @@ const MoreInformationScreen = ({navigation, route}) => {
             <View style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#d6ff84",
             borderWidth: 5, }}>
               <TouchableOpacity style={{flex: 1, alignSelf: 'stretch', flexDirection: 'row'}} onPress={ () => console.log( "todo" )} >
-                <Icon  name='sc-telegram'  type='evilicon'  color='#f5ad44'/>
+                <Icon  name='pencil'  type='evilicon'  color='#f5ad44'/>
               </TouchableOpacity>
             </View>
           </View>
@@ -92,7 +92,7 @@ const MoreInformationScreen = ({navigation, route}) => {
             <View style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#d6ff84",
             borderWidth: 5, }}>
               <TouchableOpacity style={{flex: 1, alignSelf: 'stretch', flexDirection: 'row'}} onPress={ () => console.log( "todo" )} >
-                <Icon  name='sc-telegram'  type='evilicon'  color='#f5ad44'/>
+                <Icon  name='pencil'  type='evilicon'  color='#f5ad44'/>
               </TouchableOpacity>
             </View>
           </View>
@@ -104,7 +104,7 @@ const MoreInformationScreen = ({navigation, route}) => {
             <View style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#d6ff84",
             borderWidth: 5, }}>
               <TouchableOpacity style={{flex: 1, alignSelf: 'stretch', flexDirection: 'row'}} onPress={ () => console.log( "todo" )} >
-                <Icon  name='sc-telegram'  type='evilicon'  color='#f5ad44'/>
+                <Icon  name='pencil'  type='evilicon'  color='#f5ad44'/>
               </TouchableOpacity>
             </View>
           </View>
@@ -116,7 +116,7 @@ const MoreInformationScreen = ({navigation, route}) => {
             <View style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#d6ff84",
             borderWidth: 5, }}>
               <TouchableOpacity style={{flex: 1, alignSelf: 'stretch', flexDirection: 'row'}} onPress={ () => console.log( "todo" )} >
-                <Icon  name='sc-telegram'  type='evilicon'  color='#f5ad44'/>
+                <Icon  name='pencil'  type='evilicon'  color='#f5ad44'/>
               </TouchableOpacity>
             </View>
           </View>
@@ -128,7 +128,7 @@ const MoreInformationScreen = ({navigation, route}) => {
             <View style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#d6ff84",
             borderWidth: 5, }}>
               <TouchableOpacity style={{flex: 1, alignSelf: 'stretch', flexDirection: 'row'}} onPress={ () => console.log( "todo" )} >
-                <Icon  name='sc-telegram'  type='evilicon'  color='#f5ad44'/>
+                <Icon  name='pencil'  type='evilicon'  color='#f5ad44'/>
               </TouchableOpacity>
             </View>
           </View>
@@ -140,7 +140,7 @@ const MoreInformationScreen = ({navigation, route}) => {
             <View style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#d6ff84",
             borderWidth: 5, }}>
               <TouchableOpacity style={{flex: 1, alignSelf: 'stretch', flexDirection: 'row'}} onPress={ () => console.log( "todo" )} >
-                <Icon  name='sc-telegram'  type='evilicon'  color='#f5ad44'/>
+                <Icon  name='pencil'  type='evilicon'  color='#f5ad44'/>
               </TouchableOpacity>
             </View>
           </View>
