@@ -61,6 +61,7 @@ const sqliteRowsToArray = function(recvR) {
     return returnArr;
 };
 
+/*
 class GetAllUsersTable extends React.Component {
     state = {
         recvRawRows: [],
@@ -147,7 +148,7 @@ class GetAllUsersTable extends React.Component {
     }
 
 }
-
+*/
 
 class DBHandle {
 
@@ -286,82 +287,82 @@ class DBHandle {
             }
         }
     }
-
-    AllUserRowsDB() {
-        var returnArr = [];
-        if (Platform.OS === "web") {
-          try {
-              dbref.get().then((snapshot) => {
-              // On success parse data
-              if (snapshot.exists()) {
-              
-                  returnArr = firebaseSnapshotToArray(snapshot);
-  
-                  if (returnArr !== null && returnArr.length !== 0) {
-                      tableClass.rowNumber = returnArr.length;
-                  }
-  
-                  tableClass.rowsData = returnArr;
-  
-              }
-              })
-              .catch((err) => {
-                  console.log(err);
-              });
-          } catch (error) {
-            tableClass.readError = error.message;
-          }
-        }
-        else {
-          try {
-  
-              db.transaction(trans=>{
-  
-                  trans.executeSql(
-  
-                      'SELECT * FROM users ORDER BY ROWID ASC',
-                      [],
-                      (_, { rows: { _array } })  => tableClass.recvRawRows = _array,
-  
-                  )
-  
-                  },
-  
-                  ()=>{
-  
-                  console.log("Error while opening Database ");
-  
-                  },
-  
-                  ()=>{
-  
-                  console.log("Database successfully retrieved");
-                  // On success parse data
-                  if (tableClass.recvRawRows !== null && tableClass.recvRawRows.length !== 0) {
-                      returnArr = sqliteRowsToArray(tableClass.recvRawRows);
-                      tableClass.rowNumber = tableClass.recvRawRows.length;
-                  }
-  
-                  tableClass.rowsData = returnArr;
-  
-                  }
-  
-              );
-  
-          } catch (error) {
-            tableClass.readError = error.message;
-          }
-        }
-  
-      }
-
-
+    
     // Get items of firebase db or sqlite db
-    GetAllUserRows() {
-        this.AllUserRowsDB();
-        return tableClass.rowsData;
-    }
+    AllUserRowsDB() {
+        return new Promise((resolve,reject) => {
+            var returnArr = [];
+            if (Platform.OS === "web") {
 
+            try {
+                dbref.get().then((snapshot) => {
+                // On success parse data
+                if (snapshot.exists()) {
+                
+                    returnArr = firebaseSnapshotToArray(snapshot);
+    
+                    if (returnArr !== null && returnArr.length !== 0) {
+                        tableClass.rowNumber = returnArr.length;
+                    }
+
+                    resolve(returnArr);
+    
+                }
+                })
+                .catch((err) => {
+                    console.log(err);
+                    reject(0);
+                });
+            } catch (error) {
+                tableClass.readError = error.message;
+                reject(0);
+            }
+            }
+            else {
+            try {
+    
+                db.transaction(trans=>{
+    
+                    trans.executeSql(
+    
+                        'SELECT * FROM users ORDER BY ROWID ASC',
+                        [],
+                        (_, { rows: { _array } })  => tableClass.recvRawRows = _array,
+    
+                    )
+    
+                    },
+    
+                    ()=>{
+    
+                    console.log("Error while opening Database ");
+                    reject(0);
+    
+                    },
+    
+                    ()=>{
+    
+                    console.log("Database successfully retrieved");
+                    // On success parse data
+                    if (tableClass.recvRawRows !== null && tableClass.recvRawRows.length !== 0) {
+                        returnArr = sqliteRowsToArray(tableClass.recvRawRows);
+                        tableClass.rowNumber = tableClass.recvRawRows.length;
+                    }
+    
+                    resolve(returnArr);
+    
+                    }
+    
+                );
+    
+            } catch (error) {
+                tableClass.readError = error.message;
+                reject(0);
+            }
+            }
+    
+        });
+    }
 }
 
 const DBHandleInstance = new DBHandle();
