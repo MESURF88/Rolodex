@@ -1,10 +1,13 @@
 import * as React from 'react';
+import { useState } from 'react';
 import MapView from 'react-native-maps';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { View, Dimensions, Text } from 'react-native';
 
 class GoogleAppMap extends React.Component {
     constructor(props) {
         super(props);
+        lat = 37.78825;
+        long = -122.4324;
       }
 
     render() {
@@ -12,6 +15,10 @@ class GoogleAppMap extends React.Component {
         width,
         height
       } = Dimensions.get('window');
+    
+      if (this.props.lat === undefined){
+        return <Text>Waiting on Data...</Text>;
+      }
 
       return (
         <View>
@@ -21,7 +28,14 @@ class GoogleAppMap extends React.Component {
             longitude: -122.4324,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
-          }}/>
+          }}
+          region={{
+            latitude: this.props.lat,
+            longitude: this.props.long,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+         />
         </View>
       );
     }

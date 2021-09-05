@@ -1,4 +1,5 @@
 import React from 'react'
+import { useEffect, useState } from 'react'
 import { Platform, View, Dimensions } from 'react-native';
 // @ts-ignore 
 import MapImg from '../../assets/WorldMap/WorldMap.png'
@@ -18,17 +19,31 @@ import {
 } from './styles'
 
 const MoreInformationScreen = ({navigation, route}) => {
+    const { id } = route.params;
+    const [rowData, setRowData] = useState({});
+
+    useEffect(() => {
+      DBHandleInstance.OneUserRowDB(id).then((rowDataDB) => {
+        if (rowDataDB != []){
+          // Works with ios
+          setRowData(rowDataDB[0]);
+        }
+        else{
+          setRowData({"latitude": 37.78825, "longitude": -122});
+        }
+      });
+    }, []);
     
     var {
       width,
       height
     } = Dimensions.get('window');
 
-    const { id } = route.params;
     return (
       <BackgroundView>
         <TitleText>{id} Profile</TitleText>
            <Image source={MapImg} style={{maxHeight:50, maxWidth: 50}}/>
+           <MapElementComponent lat={rowData.latitude} long={rowData.longitude} />
            <View style={{ position: 'absolute', top: (Platform.OS === "web") ? -1 : height - 45, width: width, flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
               <ButtonNextTab onPress={() => navigation.navigate('Home', {})}>
                 <TabText>Home</TabText>

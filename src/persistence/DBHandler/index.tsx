@@ -245,9 +245,84 @@ class DBHandle {
     
                     },
     
+                    (err)=>{
+    
+                    console.log("Error while opening Database ", err);
+                    reject(0);
+    
+                    },
+    
                     ()=>{
     
-                    console.log("Error while opening Database ");
+                    console.log("Database successfully retrieved");
+                    // On success parse data
+                    if (tableClass.recvRawRows !== null && tableClass.recvRawRows.length !== 0) {
+                        returnArr = sqliteRowsToArray(tableClass.recvRawRows);
+                        tableClass.rowNumber = tableClass.recvRawRows.length;
+                    }
+    
+                    resolve(returnArr);
+    
+                    }
+    
+                );
+    
+            } catch (error) {
+                tableClass.readError = error.message;
+                reject(0);
+            }
+            }
+    
+        });
+    }
+
+    // get on users data based on person_id
+    OneUserRowDB(personID) {
+        return new Promise((resolve,reject) => {
+            var returnArr = [];
+            if (Platform.OS === "web") {
+
+            try {debugger;
+                dbref.orderByChild('person_id').equalTo(1).then((snapshot) => {
+                // On success parse data
+                if (snapshot.exists()) {
+                    debugger;
+                    returnArr = firebaseSnapshotToArray(snapshot);
+    
+                    if (returnArr !== null && returnArr.length !== 0) {
+                        tableClass.rowNumber = returnArr.length;
+                    }
+
+                    resolve(returnArr);
+    
+                }
+                })
+                .catch((err) => {
+                    console.log(err);
+                    reject(0);
+                });
+            } catch (error) {
+                tableClass.readError = error.message;
+                reject(0);
+            }
+            }
+            else {
+            try {
+                db.transaction(trans=>{
+    
+                    trans.executeSql(
+    
+                        'SELECT * FROM users WHERE person_id=?',
+                        [personID],
+                        (_, { rows: { _array } })  => tableClass.recvRawRows = _array,
+    
+                    )
+    
+                    },
+    
+                    (err)=>{
+    
+                    console.log("Error while reading id ", err);
                     reject(0);
     
                     },
