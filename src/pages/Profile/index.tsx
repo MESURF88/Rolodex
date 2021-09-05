@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import { Platform, Dimensions, View, Text, TouchableOpacity } from 'react-native';
+import { Icon } from 'react-native-elements';
 // @ts-ignore 
 import MapImg from '../../assets/WorldMap/WorldMap.png'
 import DBHandleInstance from '../../persistence/DBHandler'
@@ -20,38 +21,21 @@ import {
     DataScroll,
 } from './styles'
 
-// Build the Table view Element
-const tableBuild = function(recvR, navigation, route) {
-  var returnArr = [];
-
-  let keyIdx = 0;
-  for (var i = 0; i < recvR.length; i++) {
-      returnArr.push(
-      <View key={keyIdx} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
-          <View key={keyIdx+1} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#F1ED70",
-          borderWidth: 5, }}><Text style={{ color: 'black' }}>{recvR[i].first_name}</Text></View>
-          <View key={keyIdx+2} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#F1ED70",
-          borderWidth: 5, }}><Text style={{ color: 'black' }}>{recvR[i].been_awhile}</Text></View>
-          <View key={keyIdx+3} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#F1ED70",
-          borderWidth: 5, }}><TouchableOpacity onPress={() => navigation.navigate('AddContact', {})}>Edit</TouchableOpacity></View>
-      </View>
-      )
-      keyIdx = i + 3;
-  }
-
-  return returnArr;
-};
-
-
-
-
 const ProfileScreen = ({navigation, route}) => {
+
   const [rowsData, setRowsData] = useState([]);
   const [rowNumber, setRowNumber] = useState(0);
-  useEffect(() => {    
+
+  useEffect(() => {
     DBHandleInstance.AllUserRowsDB().then((rowsDataDB) => {
-      setRowsData(rowsDataDB);
-      setRowNumber(rowsDataDB.length);
+      if (rowsDataDB != []){
+        setRowsData(rowsDataDB);
+        setRowNumber(rowsDataDB.length);
+      }
+      else{
+        setRowsData([]);
+        setRowNumber(0);
+      }
     });
   }, []);
 
@@ -61,7 +45,34 @@ const ProfileScreen = ({navigation, route}) => {
     height
   } = Dimensions.get('window');
 
+  const handleMoreClick = (indexProp:any) => {
+    console.log(indexProp);
+    // Parse out id
+    const id_text = indexProp.currentTarget.innerText.replace( /^\D+/g, ''); 
+    navigation.navigate('MoreInformation', {id: id_text});
+  }
 
+  // Build the Table view Element
+  const tableBuild = function(recvR: any[]) {
+    var returnArr = [];
+
+    let keyIdx = 0;
+    for (var i = 0; i < recvR.length; i++) {
+        returnArr.push(
+        <View key={keyIdx} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
+            <View key={keyIdx+1} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#F1ED70",
+            borderWidth: 5, }}><Text style={{ color: 'black' }}>{recvR[i].first_name}</Text></View>
+            <View key={keyIdx+2} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#F1ED70",
+            borderWidth: 5, }}><Text style={{ color: 'black' }}>{recvR[i].been_awhile}</Text></View>
+            <View key={keyIdx+3} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#F1ED70",
+            borderWidth: 5, }}><TouchableOpacity style={{flex: 1, alignSelf: 'stretch', flexDirection: 'row'}} onPress={handleMoreClick}><Icon  name='sc-telegram'  type='evilicon'  color='#517fa4'/><Text style={{color: "#F1ED70"}} >{i}</Text></TouchableOpacity></View>
+        </View>
+        )
+        keyIdx = i + 3;
+    }
+
+    return returnArr;
+  };
   const id = 0;
   const { name } = route.params;
   return (
@@ -88,7 +99,7 @@ const ProfileScreen = ({navigation, route}) => {
                   </View>
               </View>
               <DataScroll>
-                  {tableBuild(rowsData, navigation, route)}
+                  {tableBuild(rowsData)}
               </DataScroll>
             </View>
           </RowElement>

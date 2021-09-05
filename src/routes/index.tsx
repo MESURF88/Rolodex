@@ -4,6 +4,7 @@ import HomeScreen from '../pages/Home'
 import BeenAwhileScreen from '../pages/BeenAwhile'
 import AddContactScreen from '../pages/AddContact'
 import ProfileScreen from '../pages/Profile'
+import MoreInformationScreen from '../pages/MoreInformation'
 
 import { ThemeContext } from 'styled-components'
 
@@ -41,8 +42,14 @@ export default function Routes() {
       <StackNavigator.Screen 
             options={{
                 title: 'Profile',
-              }}             
+              }}          
       component={ProfileScreen} name="Profile" />
+
+     <StackNavigator.Screen 
+            options={{
+                title: 'Profile',
+              }}             
+      component={MoreInformationScreen} name="MoreInformation" />
     </StackNavigator.Navigator>
   )
 }
