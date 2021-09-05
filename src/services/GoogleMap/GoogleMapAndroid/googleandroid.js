@@ -1,6 +1,6 @@
 import * as React from 'react';
 import MapView from 'react-native-maps';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, Text } from 'react-native';
 
 class GoogleAppMap extends React.Component {
   constructor(props) {
