@@ -220,6 +220,10 @@ class DBHandle {
                     resolve(returnArr);
     
                 }
+                else {
+                    // snapshot doesn't exist
+                    reject(0);
+                }
                 })
                 .catch((err) => {
                     console.log(err);
@@ -282,11 +286,11 @@ class DBHandle {
             var returnArr = [];
             if (Platform.OS === "web") {
 
-            try {debugger;
-                dbref.orderByChild('person_id').equalTo(1).then((snapshot) => {
+            try {
+                dbref.orderByChild('person_id').equalTo(parseInt(personID)).on('value', (snapshot) => {
                 // On success parse data
                 if (snapshot.exists()) {
-                    debugger;
+                    
                     returnArr = firebaseSnapshotToArray(snapshot);
     
                     if (returnArr !== null && returnArr.length !== 0) {
@@ -296,10 +300,10 @@ class DBHandle {
                     resolve(returnArr);
     
                 }
-                })
-                .catch((err) => {
-                    console.log(err);
+                else {
+                    // snapshot doesn't exist
                     reject(0);
+                }
                 });
             } catch (error) {
                 tableClass.readError = error.message;

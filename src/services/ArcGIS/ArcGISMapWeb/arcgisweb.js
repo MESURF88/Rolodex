@@ -5,6 +5,8 @@ import { Map } from '@esri/react-arcgis';
 class ArcGISMap extends React.Component {
     constructor(props) {
         super(props);
+        // lat = 37.78825;
+        // long = -122.4324;
       }
 
     render() {
@@ -14,7 +16,7 @@ class ArcGISMap extends React.Component {
           } = Dimensions.get('window');
 
       return (
-        <Map style={{maxHeight: height - (height*.5), maxWidth: width-120}}/>
+        <Map style={{maxHeight: height - (height*.75), maxWidth: width-120}}/>
       );
     }
   };
