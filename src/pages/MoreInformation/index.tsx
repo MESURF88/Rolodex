@@ -46,7 +46,7 @@ const MoreInformationScreen = ({navigation, route}) => {
 
     return (
       <BackgroundView>
-        <TitleText style={{borderWidth: 5, padding:45, maxHeight: 10}}>{rowData.first_name} {rowData.last_name}</TitleText>
+        <TitleText style={{ flex: 1, borderWidth: 5, marginTop: (Platform.OS === "web") ? 50 : 0, padding: (Platform.OS === "web") ? 20 : 25}}>{rowData.first_name} {rowData.last_name}</TitleText>
            <Image source={MapImg} style={{maxHeight:50, maxWidth: 50}}/>
            <View key="1" style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
             <View style={{ flex: 2, alignSelf: 'stretch',    backgroundColor: "#d6ff84",
@@ -74,7 +74,7 @@ const MoreInformationScreen = ({navigation, route}) => {
           </View>
           <View key="3" style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
             <View style={{ flex: 2, alignSelf: 'stretch',    backgroundColor: "#d6ff84",
-            borderWidth: 5, }}><Text style={{ color: 'black' }}>Communication Preference</Text></View>
+            borderWidth: 5, }}><Text style={{ color: 'black' }}>Communication Pref</Text></View>
             <View style={{ flex: 2, alignSelf: 'stretch',    backgroundColor: "#d6ff84",
             borderWidth: 5, }}><Text style={{ color: 'black' }}>{rowData.communication_pref}</Text></View>
             <View style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#d6ff84",
