@@ -1,15 +1,10 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
-import { Platform, Dimensions, View, Text, TouchableOpacity } from 'react-native';
+import { Platform, Dimensions, View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { Icon } from 'react-native-elements';
 // @ts-ignore 
 import MapImg from '../../assets/WorldMap/WorldMap.png'
 import DBHandleInstance from '../../persistence/DBHandler'
-const MapElementComponent = Platform.select({  
-  web: () => require('../../services/ArcGIS/ArcGISMapWeb/arcgisweb.js').default, 
-  ios: () => require('../../services/GoogleMap/GoogleMapIOS/googleios.js').default,
-  android: () => require('../../services/GoogleMap/GoogleMapAndroid/googleandroid.js').default,
-})();
 
 import {
     BackgroundView,
@@ -18,7 +13,7 @@ import {
     ButtonNextTab,
     TabText,
     RowElement,
-    DataScroll,
+    DataListTable,
 } from './styles'
 
 const ProfileScreen = ({navigation, route}) => {
@@ -46,33 +41,10 @@ const ProfileScreen = ({navigation, route}) => {
   } = Dimensions.get('window');
 
   const handleMoreClick = (indexProp:any) => {
-    console.log(indexProp);
     // Parse out id
-    const id_text = indexProp.currentTarget.innerText.replace( /^\D+/g, ''); 
-    navigation.navigate('MoreInformation', {id: id_text});
+    navigation.navigate('MoreInformation', {id: indexProp});
   }
 
-  // Build the Table view Element
-  const tableBuild = function(recvR: any[]) {
-    var returnArr = [];
-
-    let keyIdx = 0;
-    for (var i = 0; i < recvR.length; i++) {
-        returnArr.push(
-        <View key={keyIdx} style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
-            <View key={keyIdx+1} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#F1ED70",
-            borderWidth: 5, }}><Text style={{ color: 'black' }}>{recvR[i].first_name}</Text></View>
-            <View key={keyIdx+2} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#F1ED70",
-            borderWidth: 5, }}><Text style={{ color: 'black' }}>{recvR[i].been_awhile}</Text></View>
-            <View key={keyIdx+3} style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#F1ED70",
-            borderWidth: 5, }}><TouchableOpacity style={{flex: 1, alignSelf: 'stretch', flexDirection: 'row'}} onPress={handleMoreClick}><Icon  name='sc-telegram'  type='evilicon'  color='#517fa4'/><Text style={{color: "#F1ED70"}} >{i}</Text></TouchableOpacity></View>
-        </View>
-        )
-        keyIdx = i + 3;
-    }
-
-    return returnArr;
-  };
   const id = 0;
   const { name } = route.params;
   return (
@@ -98,12 +70,30 @@ const ProfileScreen = ({navigation, route}) => {
                       <Text style={{ fontWeight: 'bold' }}>More...</Text>
                   </View>
               </View>
-              <DataScroll>
-                  {tableBuild(rowsData)}
-              </DataScroll>
+
+                <DataListTable
+                data={rowsData}
+                // @ts-ignore 
+                keyExtractor={item => (Platform.OS === "web") ? item.person_id.toString() : item.id.toString() }
+                showsHorizontalScrollIndicator={false}
+                renderItem={({ item, index }) => (
+                // @ts-ignore
+                <View key={(Platform.OS === "web") ? item.person_id.toString() : item.id.toString() } style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
+                  <View style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#d6ff84",
+                  borderWidth: 5, }}><Text style={{ color: 'black' }}>{item.first_name}</Text></View>
+                  <View style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#d6ff84",
+                  borderWidth: 5, }}><Text style={{ color: 'black' }}>{item.been_awhile}</Text></View>
+                  <View style={{ flex: 1, alignSelf: 'stretch',    backgroundColor: "#d6ff84",
+                  borderWidth: 5, }}>
+                    <TouchableOpacity style={{flex: 1, alignSelf: 'stretch', flexDirection: 'row'}} onPress={ () => handleMoreClick((Platform.OS === "web") ? item.person_id.toString() : item.id.toString())} >
+                      <Icon  name='sc-telegram'  type='evilicon'  color='#f5ad44'/>
+                    </TouchableOpacity>
+                  </View>
+                </View> )} />
+
             </View>
           </RowElement>
-          <View style={{ position: 'absolute', top: height - 45, width: width, flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
+          <View style={{ position: 'absolute', top: (Platform.OS === "web") ? -1 : height - 45, width: width, flex: 1, alignSelf: 'stretch', flexDirection: 'row', padding: 1}}>
             <ButtonNextTab onPress={() => navigation.navigate('Home', {})}>
               <TabText>Home</TabText>
             </ButtonNextTab>

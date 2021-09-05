@@ -61,95 +61,6 @@ const sqliteRowsToArray = function(recvR) {
     return returnArr;
 };
 
-/*
-class GetAllUsersTable extends React.Component {
-    state = {
-        recvRawRows: [],
-        rowsData: [],
-        rowNumber: 0,
-        readError: null,
-        writeError: null
-    }
-
-    componentDidMount = async () => {
-      var returnArr = [];
-      if (Platform.OS === "web") {
-        try {
-            dbref.get().then((snapshot) => {
-            // On success parse data
-            if (snapshot.exists()) {
-            
-                returnArr = firebaseSnapshotToArray(snapshot);
-
-                if (returnArr !== null && returnArr.length !== 0) {
-                    this.setState({ rowNumber: returnArr.length});
-                }
-
-                this.setState({ rowsData: returnArr });
-
-            }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-        } catch (error) {
-            this.setState({ readError: error.message });
-        }
-      }
-      else {
-        try {
-
-            db.transaction(trans=>{
-
-                trans.executeSql(
-
-                    'SELECT * FROM users ORDER BY ROWID ASC',
-                    [],
-                    (_, { rows: { _array } })  => this.setState({ recvRawRows: _array }),
-
-                )
-
-                },
-
-                ()=>{
-
-                console.log("Error while opening Database ");
-
-                },
-
-                ()=>{
-
-                console.log("Database successfully retrieved");
-                // On success parse data
-                if (this.state.recvRawRows !== null && this.state.recvRawRows.length !== 0) {
-                    returnArr = sqliteRowsToArray(this.state.recvRawRows);
-                    this.setState({ rowNumber: this.state.recvRawRows.length});
-                }
-
-                this.setState({ rowsData: returnArr });
-
-                }
-
-            );
-
-        } catch (error) {
-            this.setState({ readError: error.message });
-        }
-      }
-
-    }
-
-    getRows = () => {
-        return this.state.rowsData;
-    }
-
-    getRowNumber = () => {
-        return this.state.rowNumber;
-    }
-
-}
-*/
-
 class DBHandle {
 
     // Initialize database on new instance, NOTE: Only one instance of this class shall be created in the current .tsx file    
@@ -204,6 +115,7 @@ class DBHandle {
                         'Accept': 'application/json',
                         'Content-type': 'application/x-www-form-urlencoded;charset=UTF-8'
                     },
+                    // @ts-ignore 
                     xsrfCookieName: "csrftoken",
                     xsrfHeaderName: 'X-CSRF-Token',
                     body: dataBody.toString()

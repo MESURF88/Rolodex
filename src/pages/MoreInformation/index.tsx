@@ -1,8 +1,13 @@
 import React from 'react'
-import { View, Dimensions } from 'react-native';
+import { Platform, View, Dimensions } from 'react-native';
 // @ts-ignore 
 import MapImg from '../../assets/WorldMap/WorldMap.png'
 import DBHandleInstance from '../../persistence/DBHandler'
+const MapElementComponent = Platform.select({  
+  web: () => require('../../services/ArcGIS/ArcGISMapWeb/arcgisweb.js').default, 
+  ios: () => require('../../services/GoogleMap/GoogleMapIOS/googleios.js').default,
+  android: () => require('../../services/GoogleMap/GoogleMapAndroid/googleandroid.js').default,
+})();
 
 import {
     BackgroundView,

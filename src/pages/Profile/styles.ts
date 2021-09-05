@@ -42,7 +42,7 @@ export const RowElement = styled.Text`
     justify-content: center;
 `
 
-export const DataScroll = styled.ScrollView`
+export const DataListTable = styled.FlatList`
     marginTop: 0;
     width: 300px;
 `
