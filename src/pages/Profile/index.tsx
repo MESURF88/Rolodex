@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
-import { Platform, Dimensions, View, Text, TouchableOpacity, FlatList } from 'react-native';
+import { Platform, Dimensions, View, Text, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 // @ts-ignore 
 import MapImg from '../../assets/WorldMap/WorldMap.png'
@@ -50,7 +50,7 @@ const ProfileScreen = ({navigation, route}) => {
   const { name } = route.params;
   return (
     <BackgroundView>
-      <TitleText>This is {name}'s profile</TitleText>
+      <TitleText style={{ marginTop: (Platform.OS === "web") ? 35 : 0}}>This is {name}'s profile</TitleText>
           <Image source={MapImg} style={{maxHeight:50, maxWidth: 50}}/>
           <RowElement key={id} style={{maxHeight: height - (height*.25) }}>
           <View style={{ minWidth: width-20, alignItems: 'center', justifyContent: 'center' }}>

@@ -9,7 +9,6 @@ export const BackgroundView = styled.SafeAreaView`
 `
 
 export const TitleText = styled.Text`
-    height: 30px;
     background-color: #A0F45B;
     align-items: center;
     justify-content: center;

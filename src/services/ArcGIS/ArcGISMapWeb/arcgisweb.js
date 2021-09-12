@@ -1,24 +1,32 @@
 import React from 'react';
-import { Dimensions } from 'react-native';
-import { Map } from '@esri/react-arcgis';
-
-class ArcGISMap extends React.Component {
-    constructor(props) {
-        super(props);
-        // lat = 37.78825;
-        // long = -122.4324;
-      }
-
-    render() {
-        var {
-            width,
-            height
-          } = Dimensions.get('window');
-
-      return (
-        <Map style={{maxHeight: height - (height*.75), maxWidth: width-120}}/>
-      );
-    }
-  };
+import { useEffect, useRef } from "react";
+import { Dimensions, View } from 'react-native';
+function ArcGISMap(lat, long) {
+    const elementRef = useRef();
+    var {
+      width,
+      height
+    } = Dimensions.get('window');
   
-  export default ArcGISMap
+    useEffect(_ => {
+      let cleanup;
+      // lazy load the module that loads the JSAPI
+      // and initialize it
+      // TODO: use lat and long args to recenter map
+      import("./arcgiswebmap").then(
+ 
+        app => cleanup = app.initialize(elementRef.current, lat, long)
+
+      );
+
+      return () => cleanup && cleanup();
+    }, []);
+  
+    // assign elementRef to the ref of our component
+    return (
+      <View style={{maxHeight: height - (height*.75), width: width }} ref={elementRef}>
+      </View>
+    );
+  }
+
+export default ArcGISMap
