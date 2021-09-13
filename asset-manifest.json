@@ -1,11 +1,13 @@
 {
   "files": {
-    "app.js": "/Rolodex/static/js/app.0da31574.chunk.js",
-    "app.js.map": "/Rolodex/static/js/app.0da31574.chunk.js.map",
-    "runtime~app.js": "/Rolodex/static/js/runtime~app.317a4a54.js",
-    "runtime~app.js.map": "/Rolodex/static/js/runtime~app.317a4a54.js.map",
-    "static/js/2.a7ff3d64.chunk.js": "/Rolodex/static/js/2.a7ff3d64.chunk.js",
-    "static/js/2.a7ff3d64.chunk.js.map": "/Rolodex/static/js/2.a7ff3d64.chunk.js.map",
+    "app.js": "/Rolodex/static/js/app.12a67a2b.chunk.js",
+    "app.js.map": "/Rolodex/static/js/app.12a67a2b.chunk.js.map",
+    "runtime~app.js": "/Rolodex/static/js/runtime~app.5efdfcd0.js",
+    "runtime~app.js.map": "/Rolodex/static/js/runtime~app.5efdfcd0.js.map",
+    "static/js/2.dec5d164.chunk.js": "/Rolodex/static/js/2.dec5d164.chunk.js",
+    "static/js/2.dec5d164.chunk.js.map": "/Rolodex/static/js/2.dec5d164.chunk.js.map",
+    "static/js/3.b5484fb1.chunk.js": "/Rolodex/static/js/3.b5484fb1.chunk.js",
+    "static/js/3.b5484fb1.chunk.js.map": "/Rolodex/static/js/3.b5484fb1.chunk.js.map",
     "fonts/AntDesign.ttf": "/Rolodex/./fonts/AntDesign.ttf",
     "fonts/Entypo.ttf": "/Rolodex/./fonts/Entypo.ttf",
     "fonts/Feather.ttf": "/Rolodex/./fonts/Feather.ttf",
@@ -24,7 +26,7 @@
     "index.html": "/Rolodex/index.html",
     "manifest.json": "/Rolodex/manifest.json",
     "serve.json": "/Rolodex/serve.json",
-    "static/js/2.a7ff3d64.chunk.js.LICENSE.txt": "/Rolodex/static/js/2.a7ff3d64.chunk.js.LICENSE.txt",
+    "static/js/2.dec5d164.chunk.js.LICENSE.txt": "/Rolodex/static/js/2.dec5d164.chunk.js.LICENSE.txt",
     "static/media/WorldMap.png": "/Rolodex/static/media/WorldMap.e02fb1bf.png",
     "static/media/bell.png": "/Rolodex/static/media/bell.cf04af27.png",
     "static/media/heart.png": "/Rolodex/static/media/heart.23b5c2c0.png",
@@ -32,8 +34,8 @@
     "static/media/star.png": "/Rolodex/static/media/star.69c71386.png"
   },
   "entrypoints": [
-    "static/js/runtime~app.317a4a54.js",
-    "static/js/2.a7ff3d64.chunk.js",
-    "static/js/app.0da31574.chunk.js"
+    "static/js/runtime~app.5efdfcd0.js",
+    "static/js/2.dec5d164.chunk.js",
+    "static/js/app.12a67a2b.chunk.js"
   ]
 }
