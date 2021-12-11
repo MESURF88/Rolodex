@@ -13,7 +13,7 @@ module.exports = function(api) {
               "allowUndefined": false
           }
       ],
-      ["./removearcgis-ios-plugin.js"]
+      //["./removearcgis-ios-plugin.js"]
     ],
   };
 };

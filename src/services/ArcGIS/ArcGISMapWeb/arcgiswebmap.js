@@ -1,6 +1,6 @@
 // TODO: Comment out to use ios android
-import WebMap from "@arcgis/core/WebMap";
-import MapView from "@arcgis/core/views/MapView"; 
+//import WebMap from "@arcgis/core/WebMap";
+//import MapView from "@arcgis/core/views/MapView"; 
 
 const noop = () => {};
 
